@@ -37,15 +37,7 @@ A historical backtest found a statistically significant directional edge *before
 
 ---
 
-## 🔄 How It Stays Current
 
-The data pipeline operates seamlessly to provide up-to-date information:
-
-1. **Scheduled Runs:** The pipeline (live forecast pull + live market pull + scoring) runs on a schedule on a lab machine with access to underlying weather-model archives and credentials.
-2. **Static Generation:** It regenerates `index.html` with the day's data already embedded.
-3. **Serving:** GitHub Pages only serves the finished file; no live queries happen on GitHub's side.
-
----
 
 ## 🔬 Methodology
 
