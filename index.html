@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌡️</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzJFN0I5RSIvPgogIDxnIHN0cm9rZT0iI0VFRjFGNSIgc3Ryb2tlLXdpZHRoPSIyLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8bGluZSB4MT0iMjIuMjkiIHkxPSI2Ni4wIiB4Mj0iMTcuMDkiIHkyPSI2OS4wIi8+CiAgICA8bGluZSB4MT0iMTguMCIgeTE9IjUwLjAiIHgyPSIxMi4wIiB5Mj0iNTAuMCIvPgogICAgPGxpbmUgeDE9IjIyLjI5IiB5MT0iMzQuMCIgeDI9IjE3LjA5IiB5Mj0iMzEuMCIvPgogICAgPGxpbmUgeDE9IjM0LjAiIHkxPSIyMi4yOSIgeDI9IjMxLjAiIHkyPSIxNy4wOSIvPgogICAgPGxpbmUgeDE9IjUwLjAiIHkxPSIxOC4wIiB4Mj0iNTAuMCIgeTI9IjEyLjAiLz4KICAgIDxsaW5lIHgxPSI2Ni4wIiB5MT0iMjIuMjkiIHgyPSI2OS4wIiB5Mj0iMTcuMDkiLz4KICAgIDxsaW5lIHgxPSI3Ny43MSIgeTE9IjM0LjAiIHgyPSI4Mi45MSIgeTI9IjMxLjAiLz4KICAgIDxsaW5lIHgxPSI4Mi4wIiB5MT0iNTAuMCIgeDI9Ijg4LjAiIHkyPSI1MC4wIi8+CiAgICA8bGluZSB4MT0iNzcuNzEiIHkxPSI2Ni4wIiB4Mj0iODIuOTEiIHkyPSI2OS4wIi8+CiAgPC9nPgogIDxsaW5lIHgxPSI1MCIgeTE9IjUwIiB4Mj0iNzYuNjMiIHkyPSI0MS4zNSIgc3Ryb2tlPSIjQzk3RjJFIiBzdHJva2Utd2lkdGg9IjUuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNyIgZmlsbD0iI0VFRjFGNSIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMuNCIgZmlsbD0iI0M5N0YyRSIvPgo8L3N2Zz4K">
 <title>EarlyCast</title>
 
 <style>
@@ -57,6 +57,8 @@
   .badge.caution { color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
 
   h1 { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 0.95; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .brand-row { display: flex; align-items: center; gap: 0.7rem; }
+  .brand-mark { flex-shrink: 0; width: clamp(2rem, 4.2vw, 2.75rem); height: clamp(2rem, 4.2vw, 2.75rem); }
   header.top p { margin: 0; color: var(--muted); font-size: 0.98rem; max-width: 64ch; line-height: 1.55; }
 
   .disclosure { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 0.95rem 1.15rem; margin: 1.5rem 0 2rem; font-size: 0.85rem; line-height: 1.6; color: var(--muted); box-shadow: var(--shadow); }
@@ -77,12 +79,24 @@
   .bucket-row { display: grid; grid-template-columns: 5.6rem 1fr; align-items: center; gap: 0.55rem; }
   .bucket-row .blabel { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); text-align: right; }
   .bucket-row.signal .blabel { color: var(--ink); font-weight: 600; }
-  .bars { position: relative; height: 1.15rem; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
-  .bar { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 3px; opacity: 0.9; }
+  .bars { position: relative; height: 1.15rem; background: var(--surface-2); border-radius: 3px; overflow: hidden; cursor: crosshair; transition: outline-color 0.1s; outline: 1.5px solid transparent; outline-offset: 1px; }
+  .bars:hover { outline-color: var(--accent); }
+  .bar { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 3px; opacity: 0.9; pointer-events: none; }
   .bar.mkt { background: var(--market); }
   .bar.our { background: var(--model); mix-blend-mode: multiply; }
   :root[data-theme="dark"] .bar.our { mix-blend-mode: screen; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bar.our { mix-blend-mode: screen; } }
+
+  #tooltip {
+    position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--bg);
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; padding: 0.45rem 0.6rem; border-radius: 6px;
+    box-shadow: var(--shadow); opacity: 0; transform: translateY(4px); transition: opacity 0.1s, transform 0.1s;
+    white-space: nowrap; line-height: 1.5;
+  }
+  #tooltip.show { opacity: 1; transform: translateY(0); }
+  #tooltip b { color: var(--bg); }
+  #tooltip .t-mkt { color: #E8A57E; }
+  #tooltip .t-our { color: #8FC4DE; }
 
   .signals { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.2rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
   .signal-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; font-size: 0.82rem; }
@@ -103,11 +117,14 @@
 <div class="wrap">
   <header class="top">
     <div class="badge-row">
-      <span class="badge live">Snapshot from <span id="refresh-time"></span> — not auto-refreshing yet</span>
+      <span class="badge live">Data generated <span id="refresh-time"></span> — regenerated twice daily, deployed when pushed</span>
       <span class="badge caution">2-model blend (WeatherNext2 + GEFS) — not the full 5-model paper blend</span>
       <span class="badge caution">Resolution-station corrected for NYC, Chicago, Houston, Dallas, Denver</span>
     </div>
-    <h1>EarlyCast</h1>
+    <div class="brand-row">
+      <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iIzJFN0I5RSIvPgogIDxnIHN0cm9rZT0iI0VFRjFGNSIgc3Ryb2tlLXdpZHRoPSIyLjYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8bGluZSB4MT0iMjIuMjkiIHkxPSI2Ni4wIiB4Mj0iMTcuMDkiIHkyPSI2OS4wIi8+CiAgICA8bGluZSB4MT0iMTguMCIgeTE9IjUwLjAiIHgyPSIxMi4wIiB5Mj0iNTAuMCIvPgogICAgPGxpbmUgeDE9IjIyLjI5IiB5MT0iMzQuMCIgeDI9IjE3LjA5IiB5Mj0iMzEuMCIvPgogICAgPGxpbmUgeDE9IjM0LjAiIHkxPSIyMi4yOSIgeDI9IjMxLjAiIHkyPSIxNy4wOSIvPgogICAgPGxpbmUgeDE9IjUwLjAiIHkxPSIxOC4wIiB4Mj0iNTAuMCIgeTI9IjEyLjAiLz4KICAgIDxsaW5lIHgxPSI2Ni4wIiB5MT0iMjIuMjkiIHgyPSI2OS4wIiB5Mj0iMTcuMDkiLz4KICAgIDxsaW5lIHgxPSI3Ny43MSIgeTE9IjM0LjAiIHgyPSI4Mi45MSIgeTI9IjMxLjAiLz4KICAgIDxsaW5lIHgxPSI4Mi4wIiB5MT0iNTAuMCIgeDI9Ijg4LjAiIHkyPSI1MC4wIi8+CiAgICA8bGluZSB4MT0iNzcuNzEiIHkxPSI2Ni4wIiB4Mj0iODIuOTEiIHkyPSI2OS4wIi8+CiAgPC9nPgogIDxsaW5lIHgxPSI1MCIgeTE9IjUwIiB4Mj0iNzYuNjMiIHkyPSI0MS4zNSIgc3Ryb2tlPSIjQzk3RjJFIiBzdHJva2Utd2lkdGg9IjUuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNyIgZmlsbD0iI0VFRjFGNSIvPgogIDxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjMuNCIgZmlsbD0iI0M5N0YyRSIvPgo8L3N2Zz4K" alt="" width="44" height="44">
+      <h1>EarlyCast</h1>
+    </div>
     <p>Tomorrow's open Polymarket temperature markets, city by city, against a live calibrated forecast. Signals only fire where the backtest showed the gap actually mattered.</p>
   </header>
 
@@ -121,6 +138,8 @@
     <strong>Reading this page.</strong> Each bar pair compares our blended probability (blue) against Polymarket's live price (orange) for that threshold bucket. A signal fires only where |our probability − market price| exceeds 0.10, the margin the historical backtest associated with real directional edge — smaller disagreements are shown but not flagged. "μ" values are each model's bias-corrected point forecast for tomorrow's high.
   </footer>
 </div>
+
+<div id="tooltip"></div>
 
 <script>
 const DATA = {
@@ -2468,7 +2487,7 @@ function render() {
     const bucketsHtml = m.buckets.map(b => `
       <div class="bucket-row ${b.signal ? 'signal' : ''}">
         <div class="blabel">${b.label}</div>
-        <div class="bars">
+        <div class="bars" data-label="${b.label}" data-our="${(b.our_p*100).toFixed(1)}" data-mkt="${(b.mkt_p*100).toFixed(1)}" data-city="${m.city.replace('_',' ')}">
           <div class="bar mkt" style="width:${(b.mkt_p*100).toFixed(2)}%"></div>
           <div class="bar our" style="width:${(b.our_p*100).toFixed(2)}%"></div>
         </div>
@@ -2501,6 +2520,25 @@ function render() {
       <div class="source">Resolves via <a href="${m.resolution_source}" target="_blank" rel="noopener">${new URL(m.resolution_source).hostname}</a></div>
     </div>`;
   }).join('');
+
+  wireTooltips();
+}
+
+function wireTooltips() {
+  const tip = document.getElementById('tooltip');
+  document.querySelectorAll('.bars').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      tip.innerHTML = `<b>${el.dataset.city} — ${el.dataset.label}</b><br>
+        <span class="t-mkt">● market</span> ${el.dataset.mkt}%&nbsp;&nbsp;
+        <span class="t-our">● our model</span> ${el.dataset.our}%`;
+      tip.classList.add('show');
+    });
+    el.addEventListener('mousemove', e => {
+      tip.style.left = (e.clientX + 14) + 'px';
+      tip.style.top = (e.clientY + 14) + 'px';
+    });
+    el.addEventListener('mouseleave', () => tip.classList.remove('show'));
+  });
 }
 
 render();
