@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌡️</text></svg>">
+<title>EarlyCast</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #EEF1F5;
+    --surface: #FFFFFF;
+    --surface-2: #E4E9EF;
+    --ink: #1B2430;
+    --muted: #5B6675;
+    --line: #D3DAE2;
+    --accent: #C97F2E;
+    --accent-ink: #6B3E10;
+    --model: #2E7B9E;
+    --model-soft: #DCEBF1;
+    --market: #B8562F;
+    --market-soft: #F6E5DC;
+    --good: #3A8F63;
+    --good-soft: #DEF0E5;
+    --bad: #B5432E;
+    --bad-soft: #F8E3DD;
+    --shadow: 0 1px 2px rgba(27,36,48,0.06), 0 8px 24px -12px rgba(27,36,48,0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121722; --surface: #1A2130; --surface-2: #232C3E; --ink: #E7ECF3; --muted: #93A0B4;
+      --line: #303B50; --accent: #E0A05C; --accent-ink: #F4D9B4; --model: #6FB4D6; --model-soft: #1F3644;
+      --market: #E08B62; --market-soft: #402A20; --good: #5FBE8C; --good-soft: #1D3629; --bad: #E07158; --bad-soft: #3E2420;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121722; --surface: #1A2130; --surface-2: #232C3E; --ink: #E7ECF3; --muted: #93A0B4;
+    --line: #303B50; --accent: #E0A05C; --accent-ink: #F4D9B4; --model: #6FB4D6; --model-soft: #1F3644;
+    --market: #E08B62; --market-soft: #402A20; --good: #5FBE8C; --good-soft: #1D3629; --bad: #E07158; --bad-soft: #3E2420;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', system-ui, sans-serif; margin: 0; padding: 0 0 5rem; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 2.5rem 1.5rem 0; }
+
+  header.top { display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.5rem; }
+  .badge-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.6rem; border-radius: 4px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+  .badge.live { color: var(--good); background: var(--good-soft); border-color: color-mix(in srgb, var(--good) 40%, var(--line)); display: inline-flex; align-items: center; gap: 0.35rem; }
+  .badge.live::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--good); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @media (prefers-reduced-motion: reduce) { .badge.live::before { animation: none; } }
+  .badge.caution { color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 16%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+
+  h1 { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 0.95; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  header.top p { margin: 0; color: var(--muted); font-size: 0.98rem; max-width: 64ch; line-height: 1.55; }
+
+  .disclosure { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 0.95rem 1.15rem; margin: 1.5rem 0 2rem; font-size: 0.85rem; line-height: 1.6; color: var(--muted); box-shadow: var(--shadow); }
+  .disclosure strong { color: var(--ink); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 1.15rem 1.3rem 1.3rem; display: flex; flex-direction: column; gap: 0.85rem; }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+  .card-head h2 { font-family: 'Big Shoulders Display', sans-serif; font-size: 1.55rem; font-weight: 700; margin: 0; text-transform: capitalize; letter-spacing: -0.01em; }
+  .card-head .date { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+  .mus { font-family: 'IBM Plex Mono', monospace; font-size: 0.74rem; color: var(--muted); display: flex; gap: 0.9rem; }
+  .mus b { color: var(--ink); font-weight: 600; }
+
+  .legend { display: flex; gap: 1rem; font-size: 0.72rem; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 0.32rem; }
+  .swatch { width: 0.6rem; height: 0.6rem; border-radius: 2px; display: inline-block; }
+
+  .bucket-row { display: grid; grid-template-columns: 5.6rem 1fr; align-items: center; gap: 0.55rem; }
+  .bucket-row .blabel { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); text-align: right; }
+  .bucket-row.signal .blabel { color: var(--ink); font-weight: 600; }
+  .bars { position: relative; height: 1.15rem; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .bar { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 3px; opacity: 0.9; }
+  .bar.mkt { background: var(--market); }
+  .bar.our { background: var(--model); mix-blend-mode: multiply; }
+  :root[data-theme="dark"] .bar.our { mix-blend-mode: screen; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bar.our { mix-blend-mode: screen; } }
+
+  .signals { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.2rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+  .signal-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; font-size: 0.82rem; }
+  .signal-row .slabel { font-family: 'IBM Plex Mono', monospace; }
+  .flag { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; padding: 0.18rem 0.5rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; }
+  .flag.yes { background: var(--good-soft); color: var(--good); }
+  .flag.no { background: var(--bad-soft); color: var(--bad); }
+  .no-signal { font-size: 0.8rem; color: var(--muted); padding-top: 0.75rem; border-top: 1px solid var(--line); text-align: center; }
+  .source { font-size: 0.72rem; color: var(--muted); }
+  .source a { color: var(--model); text-decoration: none; }
+  .source a:hover { text-decoration: underline; }
+
+  footer.note { max-width: 1180px; margin: 2.5rem auto 0; padding: 1.5rem 1.5rem 0; color: var(--muted); font-size: 0.78rem; line-height: 1.6; border-top: 1px solid var(--line); padding-top: 1.5rem; }
+  footer.note strong { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="badge-row">
+      <span class="badge live">Snapshot from <span id="refresh-time"></span> — not auto-refreshing yet</span>
+      <span class="badge caution">2-model blend (WeatherNext2 + GEFS) — not the full 5-model paper blend</span>
+      <span class="badge caution">Resolution-station corrected for NYC, Chicago, Houston, Dallas, Denver</span>
+    </div>
+    <h1>EarlyCast</h1>
+    <p>Tomorrow's open Polymarket temperature markets, city by city, against a live calibrated forecast. Signals only fire where the backtest showed the gap actually mattered.</p>
+  </header>
+
+  <div class="disclosure">
+    <strong>Not financial advice, not a proven trading edge.</strong> The historical backtest this is built on found a modest, statistically significant directional signal before fees and spread — it has not been validated live. AIFS, Aurora, and Pangu-Weather aren't in this blend yet; they only have proven accuracy under historical reanalysis conditions, not real-time. Same-day markets are excluded entirely: by the time they're priced, the market has often already seen today's actual temperature.
+  </div>
+
+  <div class="grid" id="cards"></div>
+
+  <footer class="note">
+    <strong>Reading this page.</strong> Each bar pair compares our blended probability (blue) against Polymarket's live price (orange) for that threshold bucket. A signal fires only where |our probability − market price| exceeds 0.10, the margin the historical backtest associated with real directional edge — smaller disagreements are shown but not flagged. "μ" values are each model's bias-corrected point forecast for tomorrow's high.
+  </footer>
+</div>
+
+<script>
+const DATA = {
+  "generated_at": "2026-08-28T21:40:43.023441",
+  "wn2_init": "2026-08-28T06:00:00",
+  "gefs_init": "2026-08-28T12:00:00",
+  "blend_weights": {
+    "WeatherNext2": 0.9289855072463767,
+    "GEFS": 0.07101449275362319
+  },
+  "margin": 0.1,
+  "markets": [
+    {
+      "city": "new_york",
+      "target_date": "2026-08-29",
+      "lead_days": 1,
+      "event_title": "Highest temperature in NYC on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=klga",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 78.22,
+        "GEFS": 83.06
+      },
+      "buckets": [
+        {
+          "label": "70-71\u00b0F",
+          "our_p": 0.0016,
+          "mkt_p": 0.0005,
+          "gap": 0.0011,
+          "volume": 235.99699999999999,
+          "liquidity": 3580.25919,
+          "signal": null
+        },
+        {
+          "label": "72-73\u00b0F",
+          "our_p": 0.0173,
+          "mkt_p": 0.0005,
+          "gap": 0.0168,
+          "volume": 386.91723299999995,
+          "liquidity": 2633.71929,
+          "signal": null
+        },
+        {
+          "label": "74-75\u00b0F",
+          "our_p": 0.0925,
+          "mkt_p": 0.029,
+          "gap": 0.0635,
+          "volume": 946.5084660000001,
+          "liquidity": 4073.38654,
+          "signal": null
+        },
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.2438,
+          "mkt_p": 0.215,
+          "gap": 0.0288,
+          "volume": 3087.5726580000005,
+          "liquidity": 3007.2605,
+          "signal": null
+        },
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.3179,
+          "mkt_p": 0.45,
+          "gap": -0.1321,
+          "volume": 3264.3171669999997,
+          "liquidity": 2494.2693,
+          "signal": "buy_no"
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.2088,
+          "mkt_p": 0.255,
+          "gap": -0.0462,
+          "volume": 3247.119018,
+          "liquidity": 3362.4876,
+          "signal": null
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.0758,
+          "mkt_p": 0.065,
+          "gap": 0.0108,
+          "volume": 1730.9837480000003,
+          "liquidity": 4713.6245,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.023,
+          "mkt_p": 0.02,
+          "gap": 0.003,
+          "volume": 890.313632,
+          "liquidity": 4224.7793,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.0106,
+          "mkt_p": 0.0005,
+          "gap": 0.0101,
+          "volume": 292.5037,
+          "liquidity": 2966.63279,
+          "signal": null
+        },
+        {
+          "label": "88\u00b0F or higher",
+          "our_p": 0.0086,
+          "mkt_p": 0.0005,
+          "gap": 0.0081,
+          "volume": 421.90006399999993,
+          "liquidity": 2720.25404,
+          "signal": null
+        },
+        {
+          "label": "69\u00b0F or below",
+          "our_p": 0.0001,
+          "mkt_p": 0.0005,
+          "gap": -0.0004,
+          "volume": 225.99099999999999,
+          "liquidity": 4848.53784,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "new_york",
+      "target_date": "2026-08-30",
+      "lead_days": 2,
+      "event_title": "Highest temperature in NYC on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=klga",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 82.51,
+        "GEFS": 84.82
+      },
+      "buckets": [
+        {
+          "label": "74-75\u00b0F",
+          "our_p": 0.0058,
+          "mkt_p": 0.02,
+          "gap": -0.0142,
+          "volume": 9.9,
+          "liquidity": 1893.8108,
+          "signal": null
+        },
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.0307,
+          "mkt_p": 0.025,
+          "gap": 0.0057,
+          "volume": 0.0,
+          "liquidity": 1465.5088,
+          "signal": null
+        },
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.1017,
+          "mkt_p": 0.055,
+          "gap": 0.0467,
+          "volume": 5.20405,
+          "liquidity": 1379.3222,
+          "signal": null
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.2096,
+          "mkt_p": 0.165,
+          "gap": 0.0446,
+          "volume": 288.12120799999997,
+          "liquidity": 1708.8955,
+          "signal": null
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.2693,
+          "mkt_p": 0.31,
+          "gap": -0.0407,
+          "volume": 296.192161,
+          "liquidity": 2208.5712,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.2171,
+          "mkt_p": 0.28,
+          "gap": -0.0629,
+          "volume": 191.631272,
+          "liquidity": 2411.3632,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.1119,
+          "mkt_p": 0.085,
+          "gap": 0.0269,
+          "volume": 237.82405,
+          "liquidity": 1372.12,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.039,
+          "mkt_p": 0.035,
+          "gap": 0.004,
+          "volume": 16.83,
+          "liquidity": 1348.2775,
+          "signal": null
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.0106,
+          "mkt_p": 0.025,
+          "gap": -0.0144,
+          "volume": 7.0707,
+          "liquidity": 1361.2869,
+          "signal": null
+        },
+        {
+          "label": "92\u00b0F or higher",
+          "our_p": 0.0037,
+          "mkt_p": 0.0055,
+          "gap": -0.0018,
+          "volume": 4.991899999999999,
+          "liquidity": 2153.27524,
+          "signal": null
+        },
+        {
+          "label": "73\u00b0F or below",
+          "our_p": 0.0008,
+          "mkt_p": 0.002,
+          "gap": -0.0012,
+          "volume": 235.99699999999999,
+          "liquidity": 1869.0732,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "los_angeles",
+      "target_date": "2026-08-28",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Los Angeles on August 28?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=klax",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 87.52,
+        "GEFS": 87.18
+      },
+      "buckets": [
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.0243,
+          "mkt_p": 0.0005,
+          "gap": 0.0238,
+          "volume": 1240.9540049999998,
+          "liquidity": 10813.93705,
+          "signal": null
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.0755,
+          "mkt_p": 0.0005,
+          "gap": 0.075,
+          "volume": 6916.085281999999,
+          "liquidity": 10529.04514,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.1606,
+          "mkt_p": 0.64,
+          "gap": -0.4794,
+          "volume": 13863.615921000006,
+          "liquidity": 71.2756,
+          "signal": "buy_no"
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.234,
+          "mkt_p": 0.295,
+          "gap": -0.061,
+          "volume": 6235.864405,
+          "liquidity": 99.3604,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.2336,
+          "mkt_p": 0.05,
+          "gap": 0.1836,
+          "volume": 5283.108837999999,
+          "liquidity": 181.9235,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.1599,
+          "mkt_p": 0.01,
+          "gap": 0.1499,
+          "volume": 4036.370511,
+          "liquidity": 515.1279,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0752,
+          "mkt_p": 0.005,
+          "gap": 0.0702,
+          "volume": 2158.229821,
+          "liquidity": 1038.75063,
+          "signal": null
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.0243,
+          "mkt_p": 0.002,
+          "gap": 0.0223,
+          "volume": 2986.613154,
+          "liquidity": 2160.0798,
+          "signal": null
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.0054,
+          "mkt_p": 0.0015,
+          "gap": 0.0039,
+          "volume": 2104.362431,
+          "liquidity": 1691.78787,
+          "signal": null
+        },
+        {
+          "label": "98\u00b0F or higher",
+          "our_p": 0.0009,
+          "mkt_p": 0.0005,
+          "gap": 0.0004,
+          "volume": 2312.0753830000003,
+          "liquidity": 1216.49292,
+          "signal": null
+        },
+        {
+          "label": "79\u00b0F or below",
+          "our_p": 0.0063,
+          "mkt_p": 0.0005,
+          "gap": 0.0058,
+          "volume": 1104.510461,
+          "liquidity": 10504.64958,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "los_angeles",
+      "target_date": "2026-08-29",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Los Angeles on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=klax",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 85.66,
+        "GEFS": 84.37
+      },
+      "buckets": [
+        {
+          "label": "74-75\u00b0F",
+          "our_p": 0.0017,
+          "mkt_p": 0.002,
+          "gap": -0.0003,
+          "volume": 379.6524,
+          "liquidity": 2843.60558,
+          "signal": null
+        },
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.0074,
+          "mkt_p": 0.004,
+          "gap": 0.0034,
+          "volume": 238.14020000000002,
+          "liquidity": 2317.70722,
+          "signal": null
+        },
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.0272,
+          "mkt_p": 0.0145,
+          "gap": 0.0127,
+          "volume": 67.848052,
+          "liquidity": 2115.08933,
+          "signal": null
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.0759,
+          "mkt_p": 0.045,
+          "gap": 0.0309,
+          "volume": 369.007656,
+          "liquidity": 3424.9617,
+          "signal": null
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.1541,
+          "mkt_p": 0.245,
+          "gap": -0.0909,
+          "volume": 2478.3529019999996,
+          "liquidity": 10187.1227,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.2229,
+          "mkt_p": 0.485,
+          "gap": -0.2621,
+          "volume": 2764.9119420000006,
+          "liquidity": 5988.2611,
+          "signal": "buy_no"
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.2274,
+          "mkt_p": 0.18,
+          "gap": 0.0474,
+          "volume": 534.4923,
+          "liquidity": 4189.0091,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.163,
+          "mkt_p": 0.05,
+          "gap": 0.113,
+          "volume": 25.208325000000002,
+          "liquidity": 2680.4227,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.0821,
+          "mkt_p": 0.02,
+          "gap": 0.0621,
+          "volume": 52.1,
+          "liquidity": 3001.4551,
+          "signal": null
+        },
+        {
+          "label": "92\u00b0F or higher",
+          "our_p": 0.0379,
+          "mkt_p": 0.0055,
+          "gap": 0.0324,
+          "volume": 244.9952,
+          "liquidity": 2044.9232,
+          "signal": null
+        },
+        {
+          "label": "73\u00b0F or below",
+          "our_p": 0.0004,
+          "mkt_p": 0.0005,
+          "gap": -0.0001,
+          "volume": 265.99699999999996,
+          "liquidity": 4044.86466,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "los_angeles",
+      "target_date": "2026-08-30",
+      "lead_days": 3,
+      "event_title": "Highest temperature in Los Angeles on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=klax",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 81.53,
+        "GEFS": 80.1
+      },
+      "buckets": [
+        {
+          "label": "70-71\u00b0F",
+          "our_p": 0.0014,
+          "mkt_p": 0.003,
+          "gap": -0.0016,
+          "volume": 5.0,
+          "liquidity": 2909.16957,
+          "signal": null
+        },
+        {
+          "label": "72-73\u00b0F",
+          "our_p": 0.0042,
+          "mkt_p": 0.025,
+          "gap": -0.0208,
+          "volume": 5.0,
+          "liquidity": 1386.6145,
+          "signal": null
+        },
+        {
+          "label": "74-75\u00b0F",
+          "our_p": 0.0158,
+          "mkt_p": 0.03,
+          "gap": -0.0142,
+          "volume": 31.1109,
+          "liquidity": 1537.0051,
+          "signal": null
+        },
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.0592,
+          "mkt_p": 0.06,
+          "gap": -0.0008,
+          "volume": 0.0,
+          "liquidity": 1074.8449,
+          "signal": null
+        },
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.1585,
+          "mkt_p": 0.105,
+          "gap": 0.0535,
+          "volume": 20.0,
+          "liquidity": 1097.2046,
+          "signal": null
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.2647,
+          "mkt_p": 0.42,
+          "gap": -0.1553,
+          "volume": 116.911127,
+          "liquidity": 2195.7169,
+          "signal": "buy_no"
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.2652,
+          "mkt_p": 0.365,
+          "gap": -0.0998,
+          "volume": 98.87473499999999,
+          "liquidity": 2188.1363,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.1582,
+          "mkt_p": 0.115,
+          "gap": 0.0432,
+          "volume": 0.0,
+          "liquidity": 1157.7383,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.0567,
+          "mkt_p": 0.06,
+          "gap": -0.0033,
+          "volume": 0.0,
+          "liquidity": 1206.8946,
+          "signal": null
+        },
+        {
+          "label": "88\u00b0F or higher",
+          "our_p": 0.0154,
+          "mkt_p": 0.015,
+          "gap": 0.0004,
+          "volume": 0.0,
+          "liquidity": 710.6975,
+          "signal": null
+        },
+        {
+          "label": "69\u00b0F or below",
+          "our_p": 0.0007,
+          "mkt_p": 0.0015,
+          "gap": -0.0008,
+          "volume": 244.99099999999999,
+          "liquidity": 2772.75517,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "chicago",
+      "target_date": "2026-08-29",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Chicago on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kord",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 82.21,
+        "GEFS": 80.87
+      },
+      "buckets": [
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.0491,
+          "mkt_p": 0.035,
+          "gap": 0.0141,
+          "volume": 226.643766,
+          "liquidity": 3380.008,
+          "signal": null
+        },
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.1279,
+          "mkt_p": 0.1,
+          "gap": 0.0279,
+          "volume": 778.342189,
+          "liquidity": 2448.7158,
+          "signal": null
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.2235,
+          "mkt_p": 0.435,
+          "gap": -0.2115,
+          "volume": 326.83345499999996,
+          "liquidity": 5600.0793,
+          "signal": "buy_no"
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.2572,
+          "mkt_p": 0.335,
+          "gap": -0.0778,
+          "volume": 889.2066219999999,
+          "liquidity": 3063.5855,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.1933,
+          "mkt_p": 0.095,
+          "gap": 0.0983,
+          "volume": 398.1942680000001,
+          "liquidity": 2635.6872,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.0947,
+          "mkt_p": 0.02,
+          "gap": 0.0747,
+          "volume": 175.67722500000002,
+          "liquidity": 2929.6405,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.0303,
+          "mkt_p": 0.0045,
+          "gap": 0.0258,
+          "volume": 120.55374999999998,
+          "liquidity": 3550.21049,
+          "signal": null
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.0064,
+          "mkt_p": 0.0005,
+          "gap": 0.0059,
+          "volume": 232.983,
+          "liquidity": 4188.83551,
+          "signal": null
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0009,
+          "mkt_p": 0.0005,
+          "gap": 0.0004,
+          "volume": 332.995,
+          "liquidity": 4394.88947,
+          "signal": null
+        },
+        {
+          "label": "94\u00b0F or higher",
+          "our_p": 0.0001,
+          "mkt_p": 0.0005,
+          "gap": -0.0004,
+          "volume": 332.999,
+          "liquidity": 3941.67229,
+          "signal": null
+        },
+        {
+          "label": "75\u00b0F or below",
+          "our_p": 0.0165,
+          "mkt_p": 0.0045,
+          "gap": 0.012,
+          "volume": 167.071933,
+          "liquidity": 2220.48008,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "chicago",
+      "target_date": "2026-08-30",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Chicago on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kord",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 81.08,
+        "GEFS": 87.31
+      },
+      "buckets": [
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.174,
+          "mkt_p": 0.0055,
+          "gap": 0.1685,
+          "volume": 144.083051,
+          "liquidity": 1385.078,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.3037,
+          "mkt_p": 0.075,
+          "gap": 0.2287,
+          "volume": 141.834383,
+          "liquidity": 1223.9912,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.2664,
+          "mkt_p": 0.16,
+          "gap": 0.1064,
+          "volume": 307.71666600000003,
+          "liquidity": 1926.7706,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.1231,
+          "mkt_p": 0.275,
+          "gap": -0.1519,
+          "volume": 119.322518,
+          "liquidity": 2036.5665,
+          "signal": "buy_no"
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.0392,
+          "mkt_p": 0.245,
+          "gap": -0.2058,
+          "volume": 118.22409400000001,
+          "liquidity": 2860.867,
+          "signal": "buy_no"
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.0175,
+          "mkt_p": 0.165,
+          "gap": -0.1475,
+          "volume": 242.39999999999998,
+          "liquidity": 1630.1767,
+          "signal": "buy_no"
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.0108,
+          "mkt_p": 0.065,
+          "gap": -0.0542,
+          "volume": 31.7,
+          "liquidity": 1259.8781,
+          "signal": null
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0055,
+          "mkt_p": 0.025,
+          "gap": -0.0195,
+          "volume": 0.0,
+          "liquidity": 1755.4115,
+          "signal": null
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.0021,
+          "mkt_p": 0.0055,
+          "gap": -0.0034,
+          "volume": 0.0,
+          "liquidity": 1961.66158,
+          "signal": null
+        },
+        {
+          "label": "96\u00b0F or higher",
+          "our_p": 0.0007,
+          "mkt_p": 0.0005,
+          "gap": 0.0002,
+          "volume": 352.99100000000004,
+          "liquidity": 2336.68793,
+          "signal": null
+        },
+        {
+          "label": "77\u00b0F or below",
+          "our_p": 0.0571,
+          "mkt_p": 0.0015,
+          "gap": 0.0556,
+          "volume": 127.11699999999999,
+          "liquidity": 1343.95284,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "houston",
+      "target_date": "2026-08-29",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Houston on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=khou",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 94.46,
+        "GEFS": 98.61
+      },
+      "buckets": [
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.0013,
+          "mkt_p": 0.0005,
+          "gap": 0.0008,
+          "volume": 393.827,
+          "liquidity": 4907.28839,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.0085,
+          "mkt_p": 0.0025,
+          "gap": 0.006,
+          "volume": 1190.867373,
+          "liquidity": 4786.29254,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.0373,
+          "mkt_p": 0.003,
+          "gap": 0.0343,
+          "volume": 509.904,
+          "liquidity": 3783.18327,
+          "signal": null
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.107,
+          "mkt_p": 0.005,
+          "gap": 0.102,
+          "volume": 550.4,
+          "liquidity": 3777.98479,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.2014,
+          "mkt_p": 0.055,
+          "gap": 0.1464,
+          "volume": 1283.33724,
+          "liquidity": 6177.0611,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.2497,
+          "mkt_p": 0.345,
+          "gap": -0.0953,
+          "volume": 2827.7558279999994,
+          "liquidity": 5049.7155,
+          "signal": null
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.2058,
+          "mkt_p": 0.505,
+          "gap": -0.2992,
+          "volume": 6987.874385000001,
+          "liquidity": 3669.3501,
+          "signal": "buy_no"
+        },
+        {
+          "label": "98-99\u00b0F",
+          "our_p": 0.1156,
+          "mkt_p": 0.095,
+          "gap": 0.0206,
+          "volume": 1421.1409040000003,
+          "liquidity": 3272.6775,
+          "signal": null
+        },
+        {
+          "label": "100-101\u00b0F",
+          "our_p": 0.0475,
+          "mkt_p": 0.0005,
+          "gap": 0.047,
+          "volume": 451.234666,
+          "liquidity": 3093.87963,
+          "signal": null
+        },
+        {
+          "label": "102\u00b0F or higher",
+          "our_p": 0.0258,
+          "mkt_p": 0.0045,
+          "gap": 0.0213,
+          "volume": 542.302,
+          "liquidity": 2683.80536,
+          "signal": null
+        },
+        {
+          "label": "83\u00b0F or below",
+          "our_p": 0.0001,
+          "mkt_p": 0.0005,
+          "gap": -0.0004,
+          "volume": 364.821,
+          "liquidity": 4547.40748,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "houston",
+      "target_date": "2026-08-30",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Houston on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=khou",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 94.38,
+        "GEFS": 97.2
+      },
+      "buckets": [
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.0,
+          "mkt_p": 0.0025,
+          "gap": -0.0025,
+          "volume": 17.017,
+          "liquidity": 2850.9295,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.0005,
+          "mkt_p": 0.0025,
+          "gap": -0.002,
+          "volume": 27.997,
+          "liquidity": 2610.60728,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.0087,
+          "mkt_p": 0.01,
+          "gap": -0.0013,
+          "volume": 14.994599999999998,
+          "liquidity": 1176.6242,
+          "signal": null
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.0696,
+          "mkt_p": 0.04,
+          "gap": 0.0296,
+          "volume": 6.0,
+          "liquidity": 1156.7172,
+          "signal": null
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.2382,
+          "mkt_p": 0.11,
+          "gap": 0.1282,
+          "volume": 22.826079,
+          "liquidity": 1045.0388,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.3534,
+          "mkt_p": 0.355,
+          "gap": -0.0016,
+          "volume": 342.797153,
+          "liquidity": 3319.1152,
+          "signal": null
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.2348,
+          "mkt_p": 0.36,
+          "gap": -0.1252,
+          "volume": 520.4575619999999,
+          "liquidity": 3230.3818,
+          "signal": "buy_no"
+        },
+        {
+          "label": "98-99\u00b0F",
+          "our_p": 0.0768,
+          "mkt_p": 0.12,
+          "gap": -0.0432,
+          "volume": 62.7,
+          "liquidity": 1558.5956,
+          "signal": null
+        },
+        {
+          "label": "100-101\u00b0F",
+          "our_p": 0.0155,
+          "mkt_p": 0.025,
+          "gap": -0.0095,
+          "volume": 42.698750000000004,
+          "liquidity": 1288.4836,
+          "signal": null
+        },
+        {
+          "label": "102\u00b0F or higher",
+          "our_p": 0.0025,
+          "mkt_p": 0.0055,
+          "gap": -0.003,
+          "volume": 56.691500000000005,
+          "liquidity": 532.26203,
+          "signal": null
+        },
+        {
+          "label": "83\u00b0F or below",
+          "our_p": 0.0,
+          "mkt_p": 0.001,
+          "gap": -0.001,
+          "volume": 257.976,
+          "liquidity": 2735.92526,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "miami",
+      "target_date": "2026-08-29",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Miami on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kmia",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 88.54,
+        "GEFS": 92.91
+      },
+      "buckets": [
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.0,
+          "mkt_p": 0.0005,
+          "gap": -0.0005,
+          "volume": 159.99099999999999,
+          "liquidity": 3954.35099,
+          "signal": null
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.0001,
+          "mkt_p": 0.0005,
+          "gap": -0.0004,
+          "volume": 169.99699999999999,
+          "liquidity": 3131.77363,
+          "signal": null
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.0028,
+          "mkt_p": 0.0005,
+          "gap": 0.0023,
+          "volume": 195.341499,
+          "liquidity": 2539.02078,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.0431,
+          "mkt_p": 0.022,
+          "gap": 0.0211,
+          "volume": 1827.725743,
+          "liquidity": 2646.44275,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.2201,
+          "mkt_p": 0.0535,
+          "gap": 0.1666,
+          "volume": 779.4257729999999,
+          "liquidity": 4015.75386,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.3859,
+          "mkt_p": 0.26,
+          "gap": 0.1259,
+          "volume": 1636.332144,
+          "liquidity": 3981.3059,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.2434,
+          "mkt_p": 0.445,
+          "gap": -0.2016,
+          "volume": 1516.5311499999998,
+          "liquidity": 2952.8926,
+          "signal": "buy_no"
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.074,
+          "mkt_p": 0.21,
+          "gap": -0.136,
+          "volume": 3680.5985899999996,
+          "liquidity": 3657.9829,
+          "signal": "buy_no"
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.0237,
+          "mkt_p": 0.02,
+          "gap": 0.0037,
+          "volume": 497.006532,
+          "liquidity": 3134.8965,
+          "signal": null
+        },
+        {
+          "label": "96\u00b0F or higher",
+          "our_p": 0.0067,
+          "mkt_p": 0.0045,
+          "gap": 0.0022,
+          "volume": 226.4913,
+          "liquidity": 2639.7898,
+          "signal": null
+        },
+        {
+          "label": "77\u00b0F or below",
+          "our_p": 0.0,
+          "mkt_p": 0.0005,
+          "gap": -0.0005,
+          "volume": 159.995,
+          "liquidity": 3423.92952,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "miami",
+      "target_date": "2026-08-30",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Miami on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kmia",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 87.55,
+        "GEFS": 93.77
+      },
+      "buckets": [
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.0014,
+          "mkt_p": 0.015,
+          "gap": -0.0136,
+          "volume": 76.4765,
+          "liquidity": 2109.8821,
+          "signal": null
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.021,
+          "mkt_p": 0.02,
+          "gap": 0.001,
+          "volume": 9.9,
+          "liquidity": 1442.2399,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.1251,
+          "mkt_p": 0.025,
+          "gap": 0.1001,
+          "volume": 9.0909,
+          "liquidity": 1421.8823,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.3083,
+          "mkt_p": 0.07,
+          "gap": 0.2383,
+          "volume": 89.21222399999999,
+          "liquidity": 1172.0322,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.3174,
+          "mkt_p": 0.215,
+          "gap": 0.1024,
+          "volume": 165.267092,
+          "liquidity": 2262.595,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.1433,
+          "mkt_p": 0.41,
+          "gap": -0.2667,
+          "volume": 611.8192280000001,
+          "liquidity": 3346.4431,
+          "signal": "buy_no"
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0431,
+          "mkt_p": 0.22,
+          "gap": -0.1769,
+          "volume": 364.69551599999994,
+          "liquidity": 2008.4977,
+          "signal": "buy_no"
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.0231,
+          "mkt_p": 0.08,
+          "gap": -0.0569,
+          "volume": 34.120000000000005,
+          "liquidity": 1373.3952,
+          "signal": null
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.0126,
+          "mkt_p": 0.025,
+          "gap": -0.0124,
+          "volume": 14.42,
+          "liquidity": 1565.3945,
+          "signal": null
+        },
+        {
+          "label": "98\u00b0F or higher",
+          "our_p": 0.0047,
+          "mkt_p": 0.01,
+          "gap": -0.0053,
+          "volume": 25.973399999999998,
+          "liquidity": 841.9172,
+          "signal": null
+        },
+        {
+          "label": "79\u00b0F or below",
+          "our_p": 0.0,
+          "mkt_p": 0.0005,
+          "gap": -0.0005,
+          "volume": 239.99099999999999,
+          "liquidity": 2323.91691,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "austin",
+      "target_date": "2026-08-29",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Austin on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kaus",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 97.26,
+        "GEFS": 101.0
+      },
+      "buckets": [
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.0067,
+          "mkt_p": 0.0005,
+          "gap": 0.0062,
+          "volume": 234.99699999999999,
+          "liquidity": 3418.60634,
+          "signal": null
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0461,
+          "mkt_p": 0.0015,
+          "gap": 0.0446,
+          "volume": 231.274,
+          "liquidity": 3603.4957,
+          "signal": null
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.1628,
+          "mkt_p": 0.015,
+          "gap": 0.1478,
+          "volume": 252.2107,
+          "liquidity": 2542.818,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.2958,
+          "mkt_p": 0.065,
+          "gap": 0.2308,
+          "volume": 538.03871,
+          "liquidity": 3563.5867,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "98-99\u00b0F",
+          "our_p": 0.2796,
+          "mkt_p": 0.465,
+          "gap": -0.1854,
+          "volume": 1465.8793150000001,
+          "liquidity": 4970.6977,
+          "signal": "buy_no"
+        },
+        {
+          "label": "100-101\u00b0F",
+          "our_p": 0.143,
+          "mkt_p": 0.415,
+          "gap": -0.272,
+          "volume": 1419.6914899999997,
+          "liquidity": 4243.5642,
+          "signal": "buy_no"
+        },
+        {
+          "label": "102-103\u00b0F",
+          "our_p": 0.0459,
+          "mkt_p": 0.055,
+          "gap": -0.0091,
+          "volume": 336.49655,
+          "liquidity": 3604.5498,
+          "signal": null
+        },
+        {
+          "label": "104-105\u00b0F",
+          "our_p": 0.0135,
+          "mkt_p": 0.0065,
+          "gap": 0.007,
+          "volume": 178.897691,
+          "liquidity": 2644.33249,
+          "signal": null
+        },
+        {
+          "label": "106-107\u00b0F",
+          "our_p": 0.0045,
+          "mkt_p": 0.0005,
+          "gap": 0.004,
+          "volume": 120.325,
+          "liquidity": 3009.67044,
+          "signal": null
+        },
+        {
+          "label": "108\u00b0F or higher",
+          "our_p": 0.0016,
+          "mkt_p": 0.0005,
+          "gap": 0.0011,
+          "volume": 266.970452,
+          "liquidity": 2830.23345,
+          "signal": null
+        },
+        {
+          "label": "89\u00b0F or below",
+          "our_p": 0.0005,
+          "mkt_p": 0.0005,
+          "gap": 0.0,
+          "volume": 269.991,
+          "liquidity": 3204.21156,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "austin",
+      "target_date": "2026-08-30",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Austin on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kaus",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 97.87,
+        "GEFS": 99.75
+      },
+      "buckets": [
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.0058,
+          "mkt_p": 0.005,
+          "gap": 0.0008,
+          "volume": 72.067,
+          "liquidity": 2466.63521,
+          "signal": null
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0363,
+          "mkt_p": 0.015,
+          "gap": 0.0213,
+          "volume": 14.9869,
+          "liquidity": 1645.0871,
+          "signal": null
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.1288,
+          "mkt_p": 0.045,
+          "gap": 0.0838,
+          "volume": 0.0,
+          "liquidity": 1052.857,
+          "signal": null
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.2572,
+          "mkt_p": 0.15,
+          "gap": 0.1072,
+          "volume": 17.299422999999997,
+          "liquidity": 1418.9683,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "98-99\u00b0F",
+          "our_p": 0.2904,
+          "mkt_p": 0.41,
+          "gap": -0.1196,
+          "volume": 2006.0325109999999,
+          "liquidity": 2762.3314,
+          "signal": "buy_no"
+        },
+        {
+          "label": "100-101\u00b0F",
+          "our_p": 0.1874,
+          "mkt_p": 0.345,
+          "gap": -0.1576,
+          "volume": 161.600571,
+          "liquidity": 2377.3722,
+          "signal": "buy_no"
+        },
+        {
+          "label": "102-103\u00b0F",
+          "our_p": 0.0715,
+          "mkt_p": 0.08,
+          "gap": -0.0085,
+          "volume": 40.583325,
+          "liquidity": 964.1685,
+          "signal": null
+        },
+        {
+          "label": "104-105\u00b0F",
+          "our_p": 0.0177,
+          "mkt_p": 0.025,
+          "gap": -0.0073,
+          "volume": 0.0,
+          "liquidity": 1447.2466,
+          "signal": null
+        },
+        {
+          "label": "106-107\u00b0F",
+          "our_p": 0.0035,
+          "mkt_p": 0.0025,
+          "gap": 0.001,
+          "volume": 40.5139,
+          "liquidity": 1490.53989,
+          "signal": null
+        },
+        {
+          "label": "108\u00b0F or higher",
+          "our_p": 0.0008,
+          "mkt_p": 0.0025,
+          "gap": -0.0017,
+          "volume": 57.056999999999995,
+          "liquidity": 2041.44643,
+          "signal": null
+        },
+        {
+          "label": "89\u00b0F or below",
+          "our_p": 0.0006,
+          "mkt_p": 0.0005,
+          "gap": 0.0001,
+          "volume": 249.99099999999999,
+          "liquidity": 2407.02772,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "dallas",
+      "target_date": "2026-08-29",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Dallas on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kdal",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 102.29,
+        "GEFS": 104.01
+      },
+      "buckets": [
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.0407,
+          "mkt_p": 0.025,
+          "gap": 0.0157,
+          "volume": 487.4700000000001,
+          "liquidity": 2884.354,
+          "signal": null
+        },
+        {
+          "label": "98-99\u00b0F",
+          "our_p": 0.1167,
+          "mkt_p": 0.175,
+          "gap": -0.0583,
+          "volume": 617.6364599999999,
+          "liquidity": 7026.724,
+          "signal": null
+        },
+        {
+          "label": "100-101\u00b0F",
+          "our_p": 0.2166,
+          "mkt_p": 0.56,
+          "gap": -0.3434,
+          "volume": 2706.2040600000005,
+          "liquidity": 4871.6398,
+          "signal": "buy_no"
+        },
+        {
+          "label": "102-103\u00b0F",
+          "our_p": 0.2599,
+          "mkt_p": 0.21,
+          "gap": 0.0499,
+          "volume": 1042.208517,
+          "liquidity": 3892.3752,
+          "signal": null
+        },
+        {
+          "label": "104-105\u00b0F",
+          "our_p": 0.2024,
+          "mkt_p": 0.055,
+          "gap": 0.1474,
+          "volume": 221.16915699999998,
+          "liquidity": 2716.2506,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "106-107\u00b0F",
+          "our_p": 0.1038,
+          "mkt_p": 0.02,
+          "gap": 0.0838,
+          "volume": 261.0457,
+          "liquidity": 2897.9016,
+          "signal": null
+        },
+        {
+          "label": "108-109\u00b0F",
+          "our_p": 0.0364,
+          "mkt_p": 0.0055,
+          "gap": 0.0309,
+          "volume": 446.515227,
+          "liquidity": 3024.00647,
+          "signal": null
+        },
+        {
+          "label": "110-111\u00b0F",
+          "our_p": 0.0096,
+          "mkt_p": 0.0005,
+          "gap": 0.0091,
+          "volume": 112.254,
+          "liquidity": 3762.20811,
+          "signal": null
+        },
+        {
+          "label": "112-113\u00b0F",
+          "our_p": 0.0023,
+          "mkt_p": 0.0005,
+          "gap": 0.0018,
+          "volume": 276.995,
+          "liquidity": 4204.91304,
+          "signal": null
+        },
+        {
+          "label": "114\u00b0F or higher",
+          "our_p": 0.0007,
+          "mkt_p": 0.0005,
+          "gap": 0.0002,
+          "volume": 234.99900000000002,
+          "liquidity": 3999.07001,
+          "signal": null
+        },
+        {
+          "label": "95\u00b0F or below",
+          "our_p": 0.0109,
+          "mkt_p": 0.0005,
+          "gap": 0.0104,
+          "volume": 166.9901,
+          "liquidity": 2226.79105,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "dallas",
+      "target_date": "2026-08-30",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Dallas on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kdal",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 101.53,
+        "GEFS": 102.96
+      },
+      "buckets": [
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0006,
+          "mkt_p": 0.003,
+          "gap": -0.0024,
+          "volume": 10.0,
+          "liquidity": 2575.02273,
+          "signal": null
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.0067,
+          "mkt_p": 0.03,
+          "gap": -0.0233,
+          "volume": 41.9846,
+          "liquidity": 1625.9036,
+          "signal": null
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.0427,
+          "mkt_p": 0.07,
+          "gap": -0.0273,
+          "volume": 0.0,
+          "liquidity": 1554.5649,
+          "signal": null
+        },
+        {
+          "label": "98-99\u00b0F",
+          "our_p": 0.1498,
+          "mkt_p": 0.185,
+          "gap": -0.0352,
+          "volume": 32.244529,
+          "liquidity": 2155.2517,
+          "signal": null
+        },
+        {
+          "label": "100-101\u00b0F",
+          "our_p": 0.284,
+          "mkt_p": 0.555,
+          "gap": -0.271,
+          "volume": 301.37182799999994,
+          "liquidity": 2701.8482,
+          "signal": "buy_no"
+        },
+        {
+          "label": "102-103\u00b0F",
+          "our_p": 0.2899,
+          "mkt_p": 0.155,
+          "gap": 0.1349,
+          "volume": 231.75939599999998,
+          "liquidity": 1520.7186,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "104-105\u00b0F",
+          "our_p": 0.1613,
+          "mkt_p": 0.06,
+          "gap": 0.1013,
+          "volume": 0.0,
+          "liquidity": 1677.6292,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "106-107\u00b0F",
+          "our_p": 0.0513,
+          "mkt_p": 0.025,
+          "gap": 0.0263,
+          "volume": 39.9863,
+          "liquidity": 1392.8098,
+          "signal": null
+        },
+        {
+          "label": "108-109\u00b0F",
+          "our_p": 0.0109,
+          "mkt_p": 0.02,
+          "gap": -0.0091,
+          "volume": 19.964899999999997,
+          "liquidity": 1254.5638,
+          "signal": null
+        },
+        {
+          "label": "110\u00b0F or higher",
+          "our_p": 0.0026,
+          "mkt_p": 0.02,
+          "gap": -0.0174,
+          "volume": 14.9854,
+          "liquidity": 1123.615,
+          "signal": null
+        },
+        {
+          "label": "91\u00b0F or below",
+          "our_p": 0.0001,
+          "mkt_p": 0.0025,
+          "gap": -0.0024,
+          "volume": 0.0,
+          "liquidity": 2642.9303,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "denver",
+      "target_date": "2026-08-29",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Denver on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kbkf",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 91.64,
+        "GEFS": 93.25
+      },
+      "buckets": [
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.0227,
+          "mkt_p": 0.0095,
+          "gap": 0.0132,
+          "volume": 273.909343,
+          "liquidity": 2656.04791,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.0699,
+          "mkt_p": 0.025,
+          "gap": 0.0449,
+          "volume": 407.75,
+          "liquidity": 2429.7906,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.1498,
+          "mkt_p": 0.08,
+          "gap": 0.0698,
+          "volume": 259.781558,
+          "liquidity": 2170.796,
+          "signal": null
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.2232,
+          "mkt_p": 0.24,
+          "gap": -0.0168,
+          "volume": 436.05879400000003,
+          "liquidity": 2815.1433,
+          "signal": null
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.2316,
+          "mkt_p": 0.43,
+          "gap": -0.1984,
+          "volume": 731.4823710000001,
+          "liquidity": 5647.5591,
+          "signal": "buy_no"
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.1682,
+          "mkt_p": 0.19,
+          "gap": -0.0218,
+          "volume": 792.0557609999998,
+          "liquidity": 1982.5902,
+          "signal": null
+        },
+        {
+          "label": "96-97\u00b0F",
+          "our_p": 0.0861,
+          "mkt_p": 0.055,
+          "gap": 0.0311,
+          "volume": 390.548575,
+          "liquidity": 2230.4437,
+          "signal": null
+        },
+        {
+          "label": "98-99\u00b0F",
+          "our_p": 0.0316,
+          "mkt_p": 0.011,
+          "gap": 0.0206,
+          "volume": 492.28610000000003,
+          "liquidity": 2519.18217,
+          "signal": null
+        },
+        {
+          "label": "100-101\u00b0F",
+          "our_p": 0.0086,
+          "mkt_p": 0.0015,
+          "gap": 0.0071,
+          "volume": 370.1242,
+          "liquidity": 2882.64855,
+          "signal": null
+        },
+        {
+          "label": "102\u00b0F or higher",
+          "our_p": 0.0022,
+          "mkt_p": 0.0005,
+          "gap": 0.0017,
+          "volume": 155.1,
+          "liquidity": 3417.46742,
+          "signal": null
+        },
+        {
+          "label": "83\u00b0F or below",
+          "our_p": 0.006,
+          "mkt_p": 0.0005,
+          "gap": 0.0055,
+          "volume": 395.994067,
+          "liquidity": 2090.75354,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "denver",
+      "target_date": "2026-08-30",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Denver on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=kbkf",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 87.39,
+        "GEFS": 89.37
+      },
+      "buckets": [
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.0073,
+          "mkt_p": 0.01,
+          "gap": -0.0027,
+          "volume": 14.9857,
+          "liquidity": 1820.4564,
+          "signal": null
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.0288,
+          "mkt_p": 0.02,
+          "gap": 0.0088,
+          "volume": 30.0,
+          "liquidity": 1234.5538,
+          "signal": null
+        },
+        {
+          "label": "82-83\u00b0F",
+          "our_p": 0.0801,
+          "mkt_p": 0.035,
+          "gap": 0.0451,
+          "volume": 39.32915,
+          "liquidity": 1400.9035,
+          "signal": null
+        },
+        {
+          "label": "84-85\u00b0F",
+          "our_p": 0.1582,
+          "mkt_p": 0.105,
+          "gap": 0.0532,
+          "volume": 68.589125,
+          "liquidity": 1326.8705,
+          "signal": null
+        },
+        {
+          "label": "86-87\u00b0F",
+          "our_p": 0.222,
+          "mkt_p": 0.26,
+          "gap": -0.038,
+          "volume": 93.6,
+          "liquidity": 1786.696,
+          "signal": null
+        },
+        {
+          "label": "88-89\u00b0F",
+          "our_p": 0.2219,
+          "mkt_p": 0.33,
+          "gap": -0.1081,
+          "volume": 163.842526,
+          "liquidity": 3435.0802,
+          "signal": "buy_no"
+        },
+        {
+          "label": "90-91\u00b0F",
+          "our_p": 0.1585,
+          "mkt_p": 0.21,
+          "gap": -0.0515,
+          "volume": 148.463899,
+          "liquidity": 1383.1774,
+          "signal": null
+        },
+        {
+          "label": "92-93\u00b0F",
+          "our_p": 0.0813,
+          "mkt_p": 0.07,
+          "gap": 0.0113,
+          "volume": 56.387405,
+          "liquidity": 1034.3762,
+          "signal": null
+        },
+        {
+          "label": "94-95\u00b0F",
+          "our_p": 0.0302,
+          "mkt_p": 0.03,
+          "gap": 0.0002,
+          "volume": 11.938,
+          "liquidity": 1659.2328,
+          "signal": null
+        },
+        {
+          "label": "96\u00b0F or higher",
+          "our_p": 0.0102,
+          "mkt_p": 0.02,
+          "gap": -0.0098,
+          "volume": 4.9887,
+          "liquidity": 935.7379,
+          "signal": null
+        },
+        {
+          "label": "77\u00b0F or below",
+          "our_p": 0.0015,
+          "mkt_p": 0.0015,
+          "gap": 0.0,
+          "volume": 229.99099999999999,
+          "liquidity": 2169.84735,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "seattle",
+      "target_date": "2026-08-28",
+      "lead_days": 1,
+      "event_title": "Highest temperature in Seattle on August 28?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=ksea",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 72.96,
+        "GEFS": 74.83
+      },
+      "buckets": [
+        {
+          "label": "64-65\u00b0F",
+          "our_p": 0.0001,
+          "mkt_p": 0.0005,
+          "gap": -0.0004,
+          "volume": 527.2024999999999,
+          "liquidity": 11222.79864,
+          "signal": null
+        },
+        {
+          "label": "66-67\u00b0F",
+          "our_p": 0.0029,
+          "mkt_p": 0.0005,
+          "gap": 0.0024,
+          "volume": 1952.366955,
+          "liquidity": 10299.91973,
+          "signal": null
+        },
+        {
+          "label": "68-69\u00b0F",
+          "our_p": 0.0357,
+          "mkt_p": 0.025,
+          "gap": 0.0107,
+          "volume": 975.6810909999998,
+          "liquidity": 326.6507,
+          "signal": null
+        },
+        {
+          "label": "70-71\u00b0F",
+          "our_p": 0.1828,
+          "mkt_p": 0.205,
+          "gap": -0.0222,
+          "volume": 1960.763977,
+          "liquidity": 251.2021,
+          "signal": null
+        },
+        {
+          "label": "72-73\u00b0F",
+          "our_p": 0.3672,
+          "mkt_p": 0.635,
+          "gap": -0.2678,
+          "volume": 4156.659089000001,
+          "liquidity": 190.6243,
+          "signal": "buy_no"
+        },
+        {
+          "label": "74-75\u00b0F",
+          "our_p": 0.2915,
+          "mkt_p": 0.105,
+          "gap": 0.1865,
+          "volume": 1961.3303310000006,
+          "liquidity": 197.8949,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.097,
+          "mkt_p": 0.015,
+          "gap": 0.082,
+          "volume": 676.3522089999999,
+          "liquidity": 450.5076,
+          "signal": null
+        },
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.0182,
+          "mkt_p": 0.0015,
+          "gap": 0.0167,
+          "volume": 308.23403099999996,
+          "liquidity": 1163.90791,
+          "signal": null
+        },
+        {
+          "label": "80-81\u00b0F",
+          "our_p": 0.0037,
+          "mkt_p": 0.0005,
+          "gap": 0.0032,
+          "volume": 318.014047,
+          "liquidity": 1056.53046,
+          "signal": null
+        },
+        {
+          "label": "82\u00b0F or higher",
+          "our_p": 0.0009,
+          "mkt_p": 0.0005,
+          "gap": 0.0004,
+          "volume": 489.54240000000004,
+          "liquidity": 1728.59802,
+          "signal": null
+        },
+        {
+          "label": "63\u00b0F or below",
+          "our_p": 0.0,
+          "mkt_p": 0.0005,
+          "gap": -0.0005,
+          "volume": 364.9862,
+          "liquidity": 11064.59232,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "seattle",
+      "target_date": "2026-08-29",
+      "lead_days": 2,
+      "event_title": "Highest temperature in Seattle on August 29?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=ksea",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 68.95,
+        "GEFS": 68.49
+      },
+      "buckets": [
+        {
+          "label": "62-63\u00b0F",
+          "our_p": 0.0175,
+          "mkt_p": 0.025,
+          "gap": -0.0075,
+          "volume": 202.55865,
+          "liquidity": 3041.2301,
+          "signal": null
+        },
+        {
+          "label": "64-65\u00b0F",
+          "our_p": 0.0762,
+          "mkt_p": 0.08,
+          "gap": -0.0038,
+          "volume": 423.46908599999995,
+          "liquidity": 3229.2743,
+          "signal": null
+        },
+        {
+          "label": "66-67\u00b0F",
+          "our_p": 0.197,
+          "mkt_p": 0.27,
+          "gap": -0.073,
+          "volume": 620.579842,
+          "liquidity": 9557.7455,
+          "signal": null
+        },
+        {
+          "label": "68-69\u00b0F",
+          "our_p": 0.2938,
+          "mkt_p": 0.455,
+          "gap": -0.1612,
+          "volume": 1299.0144319999997,
+          "liquidity": 5061.8904,
+          "signal": "buy_no"
+        },
+        {
+          "label": "70-71\u00b0F",
+          "our_p": 0.2505,
+          "mkt_p": 0.16,
+          "gap": 0.0905,
+          "volume": 207.172757,
+          "liquidity": 3362.4818,
+          "signal": null
+        },
+        {
+          "label": "72-73\u00b0F",
+          "our_p": 0.122,
+          "mkt_p": 0.025,
+          "gap": 0.097,
+          "volume": 170.98495000000003,
+          "liquidity": 2932.8745,
+          "signal": null
+        },
+        {
+          "label": "74-75\u00b0F",
+          "our_p": 0.0341,
+          "mkt_p": 0.005,
+          "gap": 0.0291,
+          "volume": 65.0,
+          "liquidity": 2933.47157,
+          "signal": null
+        },
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.0056,
+          "mkt_p": 0.0045,
+          "gap": 0.0011,
+          "volume": 125.05799999999999,
+          "liquidity": 3383.87788,
+          "signal": null
+        },
+        {
+          "label": "78-79\u00b0F",
+          "our_p": 0.0006,
+          "mkt_p": 0.0005,
+          "gap": 0.0001,
+          "volume": 162.19,
+          "liquidity": 4003.7468,
+          "signal": null
+        },
+        {
+          "label": "80\u00b0F or higher",
+          "our_p": 0.0,
+          "mkt_p": 0.0005,
+          "gap": -0.0005,
+          "volume": 480.990059,
+          "liquidity": 3762.73238,
+          "signal": null
+        },
+        {
+          "label": "61\u00b0F or below",
+          "our_p": 0.0028,
+          "mkt_p": 0.004,
+          "gap": -0.0012,
+          "volume": 162.112,
+          "liquidity": 2548.63573,
+          "signal": null
+        }
+      ]
+    },
+    {
+      "city": "seattle",
+      "target_date": "2026-08-30",
+      "lead_days": 3,
+      "event_title": "Highest temperature in Seattle on August 30?",
+      "resolution_source": "https://www.weather.gov/wrh/timeseries?site=ksea",
+      "models_used": [
+        "WeatherNext2",
+        "GEFS"
+      ],
+      "mus": {
+        "WeatherNext2": 70.95,
+        "GEFS": 70.47
+      },
+      "buckets": [
+        {
+          "label": "60-61\u00b0F",
+          "our_p": 0.0008,
+          "mkt_p": 0.025,
+          "gap": -0.0242,
+          "volume": 4.984999999999999,
+          "liquidity": 2152.1525,
+          "signal": null
+        },
+        {
+          "label": "62-63\u00b0F",
+          "our_p": 0.0024,
+          "mkt_p": 0.04,
+          "gap": -0.0376,
+          "volume": 34.049433,
+          "liquidity": 1334.1178,
+          "signal": null
+        },
+        {
+          "label": "64-65\u00b0F",
+          "our_p": 0.0095,
+          "mkt_p": 0.09,
+          "gap": -0.0805,
+          "volume": 39.6083,
+          "liquidity": 1736.024,
+          "signal": null
+        },
+        {
+          "label": "66-67\u00b0F",
+          "our_p": 0.0523,
+          "mkt_p": 0.125,
+          "gap": -0.0727,
+          "volume": 34.0,
+          "liquidity": 1320.8228,
+          "signal": null
+        },
+        {
+          "label": "68-69\u00b0F",
+          "our_p": 0.1935,
+          "mkt_p": 0.25,
+          "gap": -0.0565,
+          "volume": 107.07692,
+          "liquidity": 1675.7158,
+          "signal": null
+        },
+        {
+          "label": "70-71\u00b0F",
+          "our_p": 0.3431,
+          "mkt_p": 0.36,
+          "gap": -0.0169,
+          "volume": 77.040827,
+          "liquidity": 3534.7706,
+          "signal": null
+        },
+        {
+          "label": "72-73\u00b0F",
+          "our_p": 0.2748,
+          "mkt_p": 0.16,
+          "gap": 0.1148,
+          "volume": 1.3,
+          "liquidity": 1670.6846,
+          "signal": "buy_yes"
+        },
+        {
+          "label": "74-75\u00b0F",
+          "our_p": 0.1004,
+          "mkt_p": 0.08,
+          "gap": 0.0204,
+          "volume": 5.0,
+          "liquidity": 1366.6316,
+          "signal": null
+        },
+        {
+          "label": "76-77\u00b0F",
+          "our_p": 0.0188,
+          "mkt_p": 0.01,
+          "gap": 0.0088,
+          "volume": 5.0,
+          "liquidity": 1117.9971,
+          "signal": null
+        },
+        {
+          "label": "78\u00b0F or higher",
+          "our_p": 0.0041,
+          "mkt_p": 0.02,
+          "gap": -0.0159,
+          "volume": 4.9893,
+          "liquidity": 606.9564,
+          "signal": null
+        },
+        {
+          "label": "59\u00b0F or below",
+          "our_p": 0.0003,
+          "mkt_p": 0.0025,
+          "gap": -0.0022,
+          "volume": 21.021,
+          "liquidity": 2594.0621,
+          "signal": null
+        }
+      ]
+    }
+  ]
+};
+
+function fmtTime(iso) {
+  const d = new Date(iso + 'Z');
+  return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+
+function render() {
+  document.getElementById('refresh-time').textContent = fmtTime(DATA.generated_at);
+  const grid = document.getElementById('cards');
+  grid.innerHTML = DATA.markets.map(m => {
+    const bucketsHtml = m.buckets.map(b => `
+      <div class="bucket-row ${b.signal ? 'signal' : ''}">
+        <div class="blabel">${b.label}</div>
+        <div class="bars">
+          <div class="bar mkt" style="width:${(b.mkt_p*100).toFixed(2)}%"></div>
+          <div class="bar our" style="width:${(b.our_p*100).toFixed(2)}%"></div>
+        </div>
+      </div>`).join('');
+
+    const signals = m.buckets.filter(b => b.signal);
+    const signalsHtml = signals.length
+      ? `<div class="signals">${signals.map(b => `
+          <div class="signal-row">
+            <span class="slabel">${b.label}</span>
+            <span>our ${(b.our_p*100).toFixed(0)}% · mkt ${(b.mkt_p*100).toFixed(0)}%</span>
+            <span class="flag ${b.signal === 'buy_yes' ? 'yes' : 'no'}">${b.signal === 'buy_yes' ? 'buy yes' : 'buy no'}</span>
+          </div>`).join('')}</div>`
+      : `<div class="no-signal">No bucket clears the 10-point margin today</div>`;
+
+    const musHtml = Object.entries(m.mus).map(([k,v]) => `<span>${k === 'WeatherNext2' ? 'WN2' : k}: <b>${v}°F</b></span>`).join('');
+
+    return `<div class="card">
+      <div class="card-head">
+        <h2>${m.city.replace('_',' ')}</h2>
+        <span class="date">${m.target_date}</span>
+      </div>
+      <div class="mus">${musHtml}</div>
+      <div class="legend">
+        <span><span class="swatch" style="background:var(--market)"></span>Market price</span>
+        <span><span class="swatch" style="background:var(--model)"></span>Our probability</span>
+      </div>
+      ${bucketsHtml}
+      ${signalsHtml}
+      <div class="source">Resolves via <a href="${m.resolution_source}" target="_blank" rel="noopener">${new URL(m.resolution_source).hostname}</a></div>
+    </div>`;
+  }).join('');
+}
+
+render();
+</script>
+</body>
+</html>
