@@ -194,6 +194,12 @@
       <div class="side-tagline">Prediction Market Intelligence</div>
     </div>
   </div>
+  
+  <button id="theme-toggle" class="side-item" style="margin-bottom: 0.5rem; justify-content: flex-start; gap: 0.8rem; border: 1px solid rgba(255,255,255,0.1);">
+    <span id="theme-icon">🌙</span>
+    <span>Dark Mode</span>
+  </button>
+
   <div class="side-nav">
     <div class="side-nav-label">Cities</div>
     <div id="city-nav"></div>
@@ -3465,5 +3471,33 @@ setInterval(tickClock, 1000);
 
 render();
 </script>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    const root = document.documentElement;
+    const updateIcon = (theme) => {
+      document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+    };
+    
+    // Init from local storage
+    const saved = localStorage.getItem('earlycast-theme');
+    if (saved) {
+      root.dataset.theme = saved;
+      updateIcon(saved);
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      updateIcon('dark');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const current = root.dataset.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      const next = current === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      localStorage.setItem('earlycast-theme', next);
+      updateIcon(next);
+    });
+  }
+</script>
+
 </body>
 </html>
