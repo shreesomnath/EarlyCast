@@ -4,7 +4,7 @@
   
   **Live Weather Models vs. Polymarket Temperature Markets**
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
   [![Live Site](https://img.shields.io/badge/Status-Live-success)](https://shreesomnath.github.io/EarlyCast/)
   [![Updates](https://img.shields.io/badge/Updates-Daily-blue)](#)
   
