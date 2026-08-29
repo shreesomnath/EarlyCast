@@ -215,6 +215,33 @@
   .lt-outcome.win { background: var(--good-soft); color: var(--good); }
   .lt-outcome.loss { background: var(--bad-soft); color: var(--bad); }
 
+  /* ---------- Paper trading ---------- */
+  .paper-trading { margin: 2.5rem 0 0; padding-top: 1.75rem; border-top: 1px solid var(--line); }
+  .pt-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.9rem; }
+  .pt-title { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 1.4rem; margin: 0; }
+  .pt-subtitle { font-size: 0.82rem; color: var(--muted); }
+  .pt-summary {
+    display: flex; flex-wrap: wrap; gap: 1.8rem; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 1.1rem 1.4rem; margin-bottom: 1.25rem; box-shadow: var(--shadow); align-items: center;
+  }
+  .pt-stat { display: flex; flex-direction: column; gap: 0.15rem; }
+  .pt-num { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 1.8rem; line-height: 1; font-variant-numeric: tabular-nums; }
+  .pt-num.pos { color: var(--good); }
+  .pt-num.neg { color: var(--bad); }
+  .pt-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.66rem; letter-spacing: 0.03em; color: var(--muted); text-transform: uppercase; }
+  .pt-note { flex: 1 1 240px; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+  .pt-subhead { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 1rem 0 0.5rem; }
+  .pt-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .pt-row { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0.6rem 0.9rem; font-size: 0.85rem; flex-wrap: wrap; }
+  .pt-row-left { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .pt-row .city { font-weight: 600; }
+  .pt-row .bucket { font-family: 'IBM Plex Mono', monospace; color: var(--muted); }
+  .pt-row .entry { font-size: 0.76rem; color: var(--muted); }
+  .pt-pnl { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 0.9rem; }
+  .pt-pnl.pos { color: var(--good); }
+  .pt-pnl.neg { color: var(--bad); }
+  .pt-active-badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; background: var(--model-soft); color: var(--model); text-transform: uppercase; }
+
   /* ---------- Market cards ---------- */
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.25rem; animation: fadein 0.22s ease; }
   .grid.single { grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }
@@ -368,6 +395,8 @@
 
   <section class="live-track" id="live-track"></section>
 
+  <section class="paper-trading" id="paper-trading"></section>
+
   <footer class="note">
     <strong>Reading this page.</strong> Each row compares our blended probability (blue) against Polymarket's live price (orange) for that threshold bucket. A signal fires only where the two differ by more than 0.10 — the margin the historical backtest associated with real directional edge.
   </footer>
@@ -383,7 +412,7 @@
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 const DATA = {
-  "generated_at": "2026-08-29T19:25:10.442987",
+  "generated_at": "2026-08-29T19:29:57.516029",
   "wn2_init": "2026-08-29T12:00:00",
   "gefs_init": "2026-08-29T12:00:00",
   "blend_weights": {
@@ -3317,7 +3346,595 @@ const DATA = {
     "live_samples_total": 0,
     "last_recomputed": "2026-08-29T19:17:01.250093"
   },
-  "last_successful_push": "2026-08-29T19:15:12Z"
+  "last_successful_push": "2026-08-29T19:25:12Z",
+  "paper_trading": {
+    "starting_capital": 1000.0,
+    "stake_per_trade": 10.0,
+    "realized_pnl": 0.0,
+    "current_balance": 1000.0,
+    "active_count": 64,
+    "active_capital_committed": 640.0,
+    "completed_count": 0,
+    "active": [
+      {
+        "city": "new_york",
+        "target_date": "2026-08-30",
+        "bucket_label": "78-79\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.07,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:36.569909"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-08-30",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.65,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:36.569913"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-08-30",
+        "bucket_label": "84-85\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.74,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:36.569916"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-29",
+        "bucket_label": "84-85\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.51,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.154485"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-29",
+        "bucket_label": "88-89\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.025,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.154489"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-30",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.555,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.359217"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-31",
+        "bucket_label": "78-79\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.505,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.415831"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-31",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.035,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.415834"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-30",
+        "bucket_label": "78-79\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.0025,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.999445"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-30",
+        "bucket_label": "80-81\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.035,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.999448"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-30",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.12,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.999450"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-30",
+        "bucket_label": "84-85\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.695,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.999451"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-30",
+        "bucket_label": "86-87\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.67,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.999453"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-30",
+        "bucket_label": "88-89\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.815,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:37.999454"
+      },
+      {
+        "city": "houston",
+        "target_date": "2026-08-30",
+        "bucket_label": "90-91\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.008,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:38.481966"
+      },
+      {
+        "city": "houston",
+        "target_date": "2026-08-30",
+        "bucket_label": "94-95\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.515,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:38.481969"
+      },
+      {
+        "city": "houston",
+        "target_date": "2026-08-30",
+        "bucket_label": "96-97\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.595,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:38.481970"
+      },
+      {
+        "city": "houston",
+        "target_date": "2026-08-31",
+        "bucket_label": "92-93\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.72,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:38.666553"
+      },
+      {
+        "city": "houston",
+        "target_date": "2026-08-31",
+        "bucket_label": "94-95\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.535,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:38.666556"
+      },
+      {
+        "city": "houston",
+        "target_date": "2026-08-31",
+        "bucket_label": "96-97\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.18,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:38.666558"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-30",
+        "bucket_label": "86-87\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.03,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.055785"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-30",
+        "bucket_label": "88-89\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.235,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.055788"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-30",
+        "bucket_label": "90-91\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.505,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.055789"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-30",
+        "bucket_label": "92-93\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.765,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.055791"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-31",
+        "bucket_label": "86-87\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.07,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.263360"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-31",
+        "bucket_label": "88-89\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.125,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.263363"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-31",
+        "bucket_label": "90-91\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.545,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.263365"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-31",
+        "bucket_label": "92-93\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.655,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.263366"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-30",
+        "bucket_label": "94-95\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.035,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.833219"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-30",
+        "bucket_label": "96-97\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.125,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.833222"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-30",
+        "bucket_label": "98-99\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.43,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.833224"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-30",
+        "bucket_label": "100-101\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.735,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:39.833225"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-31",
+        "bucket_label": "94-95\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.04,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.085850"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-31",
+        "bucket_label": "96-97\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.085,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.085854"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-31",
+        "bucket_label": "98-99\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.475,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.085855"
+      },
+      {
+        "city": "austin",
+        "target_date": "2026-08-31",
+        "bucket_label": "100-101\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.62,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.085856"
+      },
+      {
+        "city": "dallas",
+        "target_date": "2026-08-30",
+        "bucket_label": "100-101\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.32,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.778441"
+      },
+      {
+        "city": "dallas",
+        "target_date": "2026-08-30",
+        "bucket_label": "102-103\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.15,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.778444"
+      },
+      {
+        "city": "dallas",
+        "target_date": "2026-08-30",
+        "bucket_label": "104-105\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.025,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.778446"
+      },
+      {
+        "city": "dallas",
+        "target_date": "2026-08-30",
+        "bucket_label": "106-107\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.006,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:40.778447"
+      },
+      {
+        "city": "denver",
+        "target_date": "2026-08-30",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.035,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:41.805313"
+      },
+      {
+        "city": "denver",
+        "target_date": "2026-08-30",
+        "bucket_label": "84-85\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.08,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:41.805316"
+      },
+      {
+        "city": "denver",
+        "target_date": "2026-08-30",
+        "bucket_label": "86-87\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.655,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:41.805318"
+      },
+      {
+        "city": "denver",
+        "target_date": "2026-08-30",
+        "bucket_label": "88-89\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.66,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:41.805320"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-29",
+        "bucket_label": "68-69\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.475,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:42.406072"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-29",
+        "bucket_label": "70-71\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.16,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:42.406075"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-29",
+        "bucket_label": "72-73\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.015,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:42.406077"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-30",
+        "bucket_label": "68-69\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.695,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:42.590568"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-30",
+        "bucket_label": "70-71\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.515,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:42.590570"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-30",
+        "bucket_label": "72-73\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.135,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:42.590572"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-30",
+        "bucket_label": "74-75\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.03,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T15:03:42.590574"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-29",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.765,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T16:00:03.044649"
+      },
+      {
+        "city": "seattle",
+        "target_date": "2026-08-29",
+        "bucket_label": "64-65\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.87,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T16:00:08.770306"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-29",
+        "bucket_label": "90-91\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.002,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T16:10:03.009828"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-31",
+        "bucket_label": "86-87\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.095,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T16:25:04.500485"
+      },
+      {
+        "city": "chicago",
+        "target_date": "2026-08-31",
+        "bucket_label": "90-91\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.66,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T16:25:04.500489"
+      },
+      {
+        "city": "houston",
+        "target_date": "2026-08-30",
+        "bucket_label": "92-93\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.105,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T16:25:05.118123"
+      },
+      {
+        "city": "denver",
+        "target_date": "2026-08-31",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.66,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T17:30:08.166299"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-29",
+        "bucket_label": "86-87\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.65,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T17:39:54.695808"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-08-31",
+        "bucket_label": "80-81\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.63,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T18:00:02.624184"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-29",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.001,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T18:00:03.799946"
+      },
+      {
+        "city": "denver",
+        "target_date": "2026-08-31",
+        "bucket_label": "80-81\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.745,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T18:45:08.202105"
+      },
+      {
+        "city": "los_angeles",
+        "target_date": "2026-08-31",
+        "bucket_label": "74-75\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.02,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T19:25:03.754773"
+      },
+      {
+        "city": "miami",
+        "target_date": "2026-08-30",
+        "bucket_label": "84-85\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.015,
+        "stake": 10.0,
+        "first_seen_ts": "2026-08-29T19:25:06.196913"
+      }
+    ],
+    "recent_completed": []
+  }
 };
 
 let activeCity = null;
@@ -3465,6 +4082,69 @@ function renderNav() {
   });
 }
 
+function fmtUsd(n) {
+  const sign = n < 0 ? '-' : '+';
+  return `${sign}$${Math.abs(n).toFixed(2)}`;
+}
+
+function timeAgoShort(iso) {
+  if (!iso) return '';
+  // backend writes naive-UTC timestamps with no timezone suffix -- must
+  // append 'Z' or the browser parses them as local time, same fix fmtTime()
+  // already applies elsewhere on this page
+  const mins = Math.max(0, Math.floor((Date.now() - new Date(iso + 'Z').getTime()) / 60000));
+  if (mins < 60) return `${mins}m`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h`;
+  return `${Math.floor(hrs / 24)}d`;
+}
+
+function renderPaperTrading() {
+  const el = document.getElementById('paper-trading');
+  const pt = DATA.paper_trading;
+  if (!el || !pt) { if (el) el.innerHTML = ''; return; }
+
+  const head = `<div class="pt-head">
+    <h2 class="pt-title">Paper Trading</h2>
+    <span class="pt-subtitle">A simple simulation: $${pt.stake_per_trade.toFixed(0)} on every signal, at the market's own price when it fired — illustrative only, not a real portfolio.</span>
+  </div>`;
+
+  const pnlClass = pt.realized_pnl >= 0 ? 'pos' : 'neg';
+  const summary = `<div class="pt-summary">
+    <div class="pt-stat"><span class="pt-num">$${pt.starting_capital.toFixed(0)}</span><span class="pt-label">Started With</span></div>
+    <div class="pt-stat"><span class="pt-num ${pnlClass}">$${pt.current_balance.toFixed(2)}</span><span class="pt-label">Current Balance</span></div>
+    <div class="pt-stat"><span class="pt-num ${pnlClass}">${fmtUsd(pt.realized_pnl)}</span><span class="pt-label">Realized P&amp;L (${pt.completed_count} trades)</span></div>
+    <div class="pt-stat"><span class="pt-num">${pt.active_count}</span><span class="pt-label">Active Trades ($${pt.active_capital_committed.toFixed(0)} committed)</span></div>
+    <div class="pt-note">Fixed $${pt.stake_per_trade.toFixed(0)} stake per signal, no compounding, no fees modeled. Same real trades as the Live Track Record above, shown here in dollar terms.</div>
+  </div>`;
+
+  const activeHtml = pt.active.length ? `
+    <div class="pt-subhead">Active (${pt.active.length})</div>
+    <div class="pt-list">${pt.active.map(t => `
+      <div class="pt-row">
+        <div class="pt-row-left">
+          <span class="city">${escapeHtml(titleCase(t.city))}</span>
+          <span class="bucket">${escapeHtml(t.bucket_label)} · ${t.signal === 'buy_yes' ? 'buy yes' : 'buy no'}</span>
+          <span class="entry">entry ${(t.entry_price*100).toFixed(0)}¢ · open ${timeAgoShort(t.first_seen_ts)}</span>
+        </div>
+        <span class="pt-active-badge">$${t.stake.toFixed(0)} in play</span>
+      </div>`).join('')}</div>` : '';
+
+  const completedHtml = pt.recent_completed.length ? `
+    <div class="pt-subhead">Recently Completed</div>
+    <div class="pt-list">${pt.recent_completed.map(t => `
+      <div class="pt-row">
+        <div class="pt-row-left">
+          <span class="city">${escapeHtml(titleCase(t.city))}</span>
+          <span class="bucket">${escapeHtml(t.bucket_label)} · ${t.signal === 'buy_yes' ? 'buy yes' : 'buy no'}</span>
+          <span class="entry">entry ${(t.entry_price*100).toFixed(0)}¢ · $${t.stake.toFixed(0)} staked</span>
+        </div>
+        <span class="pt-pnl ${t.pnl >= 0 ? 'pos' : 'neg'}">${fmtUsd(t.pnl)}</span>
+      </div>`).join('')}</div>` : (pt.active.length ? '' : `<div class="lt-empty">No trades completed yet — check back as today's signals resolve.</div>`);
+
+  el.innerHTML = head + summary + activeHtml + completedHtml;
+}
+
 function renderLiveTrack() {
   const el = document.getElementById('live-track');
   const tr = DATA.track_record;
@@ -3552,6 +4232,7 @@ function render() {
   document.getElementById('page-title').textContent = activeCity ? titleCase(activeCity) : 'All Cities';
   renderNav();
   renderLiveTrack();
+  renderPaperTrading();
   renderCorrectionStatus();
   renderGapsQuickview();
 
