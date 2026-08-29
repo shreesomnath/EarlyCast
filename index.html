@@ -324,7 +324,7 @@
 
 <script>
 const DATA = {
-  "generated_at": "2026-08-29T16:10:09.620318",
+  "generated_at": "2026-08-29T16:13:49.634173",
   "wn2_init": "2026-08-29T06:00:00",
   "gefs_init": "2026-08-29T06:00:00",
   "blend_weights": {
@@ -1634,29 +1634,29 @@ const DATA = {
       },
       "headline_bucket": "90-91\u00b0F",
       "spark": [
-        0.46,
         0.45,
         0.45,
         0.45,
         0.4599997608,
-        0.49,
+        0.5,
+        0.477740218,
+        0.5,
+        0.5155830389,
         0.52,
-        0.5,
-        0.5099999796,
-        0.5,
         0.51,
-        0.52,
+        0.51,
         0.5,
         0.52,
         0.5,
         0.5,
         0.5,
         0.5,
-        0.4908,
+        0.5,
         0.5087,
+        0.51,
         0.49,
-        0.4899998285,
         0.4899999951,
+        0.49,
         0.48
       ],
       "buckets": [
@@ -3452,6 +3452,24 @@ function fmtTime(iso) {
   return d.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
 
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, ch => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[ch]));
+}
+
+function safeHref(url) {
+  // bucket labels/URLs originate from Polymarket's API -- defense in depth
+  // against a javascript: URL or similar slipping through, even though
+  // resolutionSource is normally a fixed governance-set field
+  try {
+    const u = new URL(url);
+    return (u.protocol === 'http:' || u.protocol === 'https:') ? u.href : '#';
+  } catch {
+    return '#';
+  }
+}
+
 function titleCase(cityKey) {
   return cityKey.replace(/_/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase());
 }
@@ -3479,7 +3497,7 @@ function sparklineSvg(points, label) {
     const y = pad + (h - pad * 2) * (1 - (p - min) / range);
     return `${x.toFixed(1)},${y.toFixed(1)}`;
   }).join(' ');
-  const title = label ? `Market price trend — ${label}` : 'Market price trend';
+  const title = escapeHtml(label ? `Market price trend — ${label}` : 'Market price trend');
   return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-label="${title}">
     <title>${title}</title>
     <polyline points="${coords}" fill="none" style="stroke:var(--market);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round" />
@@ -3576,13 +3594,13 @@ function render() {
       return `
       <div class="bucket-row ${signalClass}">
         <div class="bucket-top">
-          <span class="bucket-label">${b.label}</span>
+          <span class="bucket-label">${escapeHtml(b.label)}</span>
           <span class="bucket-nums">
             <span class="bucket-num mkt">${(b.mkt_p*100).toFixed(0)}%</span>
             <span class="bucket-num our">${(b.our_p*100).toFixed(0)}%</span>
           </span>
         </div>
-        <div class="bars" data-label="${b.label}" data-our="${(b.our_p*100).toFixed(1)}" data-mkt="${(b.mkt_p*100).toFixed(1)}" data-city="${titleCase(m.city)}">
+        <div class="bars" data-label="${escapeHtml(b.label)}" data-our="${(b.our_p*100).toFixed(1)}" data-mkt="${(b.mkt_p*100).toFixed(1)}" data-city="${escapeHtml(titleCase(m.city))}">
           <div class="bar mkt" style="width:${(b.mkt_p*100).toFixed(2)}%"></div>
           <div class="bar our" style="width:${(b.our_p*100).toFixed(2)}%"></div>
         </div>
@@ -3618,7 +3636,7 @@ function render() {
     const signalsHtml = signals.length
       ? `<div class="signals">${signals.map(b => `
           <div class="signal-flag-row">
-            <span>${b.label}${weakEvidence(b) ? ` <span class="weak-note" title="${weakReason(b)}">·  thinner evidence</span>` : ''}</span>
+            <span>${escapeHtml(b.label)}${weakEvidence(b) ? ` <span class="weak-note" title="${escapeHtml(weakReason(b))}">·  thinner evidence</span>` : ''}</span>
             <span class="flag ${b.signal === 'buy_yes' ? 'yes' : 'no'}">${b.signal === 'buy_yes' ? 'buy yes' : 'buy no'}</span>
           </div>`).join('')}</div>`
       : `<div class="no-signal">No bucket clears the 10-point margin today</div>`;
@@ -3643,7 +3661,7 @@ function render() {
       </div>
       <div class="bucket-grid">${bucketsHtml}</div>
       ${signalsHtml}
-      <div class="source">Resolves via <a href="${m.resolution_source}" target="_blank" rel="noopener">${new URL(m.resolution_source).hostname}</a></div>
+      <div class="source">Resolves via <a href="${escapeHtml(safeHref(m.resolution_source))}" target="_blank" rel="noopener">${escapeHtml(safeHref(m.resolution_source) === '#' ? m.resolution_source : new URL(m.resolution_source).hostname)}</a></div>
     </div>`;
   }).join('');
 
@@ -3653,7 +3671,7 @@ function render() {
 function wireTooltips() {
   const tip = document.getElementById('tooltip');
   const showTip = (el, x, y) => {
-    tip.innerHTML = `<b>${el.dataset.city} — ${el.dataset.label}</b><br>market ${el.dataset.mkt}% &nbsp; our model ${el.dataset.our}%`;
+    tip.innerHTML = `<b>${escapeHtml(el.dataset.city)} — ${escapeHtml(el.dataset.label)}</b><br>market ${el.dataset.mkt}% &nbsp; our model ${el.dataset.our}%`;
     tip.style.left = (x + 14) + 'px';
     tip.style.top = (y + 14) + 'px';
     tip.classList.add('show');
