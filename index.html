@@ -73,6 +73,13 @@
   .side-nav { display: flex; flex-direction: column; gap: 0.15rem; }
   @media (max-width: 860px) { .side-nav { flex-direction: row; flex-wrap: wrap; flex: 1; } }
   .side-nav-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--sidebar-muted); padding: 0 0.7rem 0.4rem; }
+  .theme-toggle {
+    display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.7rem; border-radius: 8px;
+    background: none; border: 1px solid rgba(255,255,255,0.1); color: var(--sidebar-ink);
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+    width: 100%; text-align: left; transition: background 0.12s;
+  }
+  .theme-toggle:hover { background: var(--sidebar-active); }
   .side-item {
     display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.6rem 0.7rem;
     border-radius: 8px; cursor: pointer; color: var(--sidebar-ink); font-size: 0.95rem; font-weight: 500;
@@ -194,12 +201,9 @@
       <div class="side-tagline">Prediction Market Intelligence</div>
     </div>
   </div>
-  
-  <button id="theme-toggle" class="side-item" style="margin-bottom: 0.5rem; justify-content: flex-start; gap: 0.8rem; border: 1px solid rgba(255,255,255,0.1);">
-    <span id="theme-icon">🌙</span>
-    <span>Dark Mode</span>
+  <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+    <span id="theme-icon">🌙</span><span>Dark Mode</span>
   </button>
-
   <div class="side-nav">
     <div class="side-nav-label">Cities</div>
     <div id="city-nav"></div>
@@ -264,7 +268,7 @@
 
 <script>
 const DATA = {
-  "generated_at": "2026-08-29T14:25:03.975267",
+  "generated_at": "2026-08-29T14:28:42.790050",
   "wn2_init": "2026-08-29T06:00:00",
   "gefs_init": "2026-08-29T06:00:00",
   "blend_weights": {
@@ -288,32 +292,18 @@ const DATA = {
         "WeatherNext2": 80.31,
         "GEFS": 85.97
       },
-      "headline_bucket": "82-83\u00b0F",
+      "headline_bucket": "78-79\u00b0F",
       "spark": [
-        0.38,
-        0.38,
-        0.38,
-        0.38,
-        0.28,
-        0.32,
-        0.32,
-        0.32,
-        0.31,
-        0.36,
-        0.3699999693,
-        0.3699998631,
-        0.34,
-        0.3699998631,
-        0.37,
-        0.36,
-        0.3699998994,
-        0.369999932,
-        0.36,
-        0.3799999012,
-        0.4,
-        0.42,
-        0.4,
-        0.4
+        0.02,
+        0.05,
+        0.0495,
+        0.06,
+        0.05,
+        0.08,
+        0.08,
+        0.08,
+        0.08,
+        0.07
       ],
       "buckets": [
         {
@@ -322,7 +312,7 @@ const DATA = {
           "mkt_p": 0.015,
           "gap": 0.0006,
           "volume": 761.7146,
-          "liquidity": 4224.064,
+          "liquidity": 4172.1176,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x6da9d9578ba382dfb3162dd4b95a7c2a793dc7bc448e76690d5d480b95740e84"
@@ -333,7 +323,7 @@ const DATA = {
           "mkt_p": 0.025,
           "gap": 0.0616,
           "volume": 3274.112,
-          "liquidity": 4654.1096,
+          "liquidity": 4044.6918,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x670263e4df6a792a2cdf8a3bbcfe8f399e7e4d22f202342fe7c2805f5fe19e1b"
@@ -344,7 +334,7 @@ const DATA = {
           "mkt_p": 0.055,
           "gap": 0.1809,
           "volume": 268.9318,
-          "liquidity": 3018.6588,
+          "liquidity": 2525.9261,
           "signal": "buy_yes",
           "fee_frac": 0.0026,
           "condition_id": "0xad69a840c2e7e9e0b4410b229c8488a2bf5886623506c58962a6ef8512bb44b8"
@@ -352,10 +342,10 @@ const DATA = {
         {
           "label": "80-81\u00b0F",
           "our_p": 0.3171,
-          "mkt_p": 0.22,
-          "gap": 0.0971,
+          "mkt_p": 0.235,
+          "gap": 0.0821,
           "volume": 733.9699330000001,
-          "liquidity": 4077.5108,
+          "liquidity": 3246.642,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x74a95f5b8e5cde614d5f006556c1287e5c65197bfdde1276a3befec52d933422"
@@ -363,12 +353,12 @@ const DATA = {
         {
           "label": "82-83\u00b0F",
           "our_p": 0.214,
-          "mkt_p": 0.41,
-          "gap": -0.196,
+          "mkt_p": 0.385,
+          "gap": -0.171,
           "volume": 525.441549,
-          "liquidity": 3596.4545,
+          "liquidity": 3296.2207,
           "signal": "buy_no",
-          "fee_frac": 0.0121,
+          "fee_frac": 0.0118,
           "condition_id": "0x006eed46d96c0008316e9fbbd13f34cd1f358bd8f50140f9c05b79347f4970b6"
         },
         {
@@ -377,7 +367,7 @@ const DATA = {
           "mkt_p": 0.26,
           "gap": -0.1808,
           "volume": 527.5337509999999,
-          "liquidity": 4634.107,
+          "liquidity": 4108.0214,
           "signal": "buy_no",
           "fee_frac": 0.0096,
           "condition_id": "0x44726e542ad3eef7af1d010237363c0e36bab51cc08de8dde024d661e85c582b"
@@ -388,7 +378,7 @@ const DATA = {
           "mkt_p": 0.045,
           "gap": -0.0201,
           "volume": 628.5593329999999,
-          "liquidity": 4830.1372,
+          "liquidity": 3651.0684,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x65c7982d357753ac11c589e572a6b95fcfc2d612a45ad9b25625030f7ea84152"
@@ -399,7 +389,7 @@ const DATA = {
           "mkt_p": 0.015,
           "gap": -0.0023,
           "volume": 27.019999999999996,
-          "liquidity": 2351.3839,
+          "liquidity": 2733.7938,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5f90e31368c1d54e96fa028eaad87b934a3f93abbc53b51cb9ef13c5a2f787af"
@@ -410,7 +400,7 @@ const DATA = {
           "mkt_p": 0.0095,
           "gap": -0.0021,
           "volume": 151.433853,
-          "liquidity": 3737.77401,
+          "liquidity": 3468.31957,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xeceb9566e44ccb8c20f4404b0f29b80bab4d9590fd19fff7e8535fa775d73e2e"
@@ -421,7 +411,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0047,
           "volume": 119.98289999999999,
-          "liquidity": 4321.40816,
+          "liquidity": 4009.13713,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x48dc032e9fbdb6a624e0168184bb2ef3c3ed0eebd4093eea7e3f8dbe1d7679cd"
@@ -429,10 +419,10 @@ const DATA = {
         {
           "label": "73\u00b0F or below",
           "our_p": 0.0014,
-          "mkt_p": 0.0005,
-          "gap": 0.0009,
+          "mkt_p": 0.002,
+          "gap": -0.0006,
           "volume": 235.99699999999999,
-          "liquidity": 3019.39206,
+          "liquidity": 2671.70682,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xb8424e7e8771d15861c1f0680ff346cf3d5569627552b0a414f87db975883e8d"
@@ -479,7 +469,7 @@ const DATA = {
           "mkt_p": 0.06,
           "gap": -0.0362,
           "volume": 0.0,
-          "liquidity": 1121.2694,
+          "liquidity": 1124.2944,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x48fa65c40b5161918a02bc58c8fd08869bbdf6c9a6e83a63a491436264484790"
@@ -490,7 +480,7 @@ const DATA = {
           "mkt_p": 0.095,
           "gap": -0.0094,
           "volume": 0.0,
-          "liquidity": 918.4904,
+          "liquidity": 926.4695,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x943a5bd43bec2b0e69d537a8dd235ffcd41f3684cc884220bb0f5ab507e6f6d4"
@@ -501,7 +491,7 @@ const DATA = {
           "mkt_p": 0.18,
           "gap": 0.0112,
           "volume": 0.0,
-          "liquidity": 861.0272,
+          "liquidity": 862.7661,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x576cca4ddd0ef5e55df4f79484ca88b6f4e1687288e7dabc0b145e7bbfe9e3c5"
@@ -512,7 +502,7 @@ const DATA = {
           "mkt_p": 0.375,
           "gap": -0.109,
           "volume": 343.446155,
-          "liquidity": 1850.4393,
+          "liquidity": 2276.5361,
           "signal": "buy_no",
           "fee_frac": 0.0117,
           "condition_id": "0x3da29dcdc0a007fe212d6cb829a8d2983844879a0d270f1fc00998f1788a6e7c"
@@ -523,7 +513,7 @@ const DATA = {
           "mkt_p": 0.225,
           "gap": 0.0068,
           "volume": 32.890744999999995,
-          "liquidity": 987.7542,
+          "liquidity": 1156.1257,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x898c8f8ca73068a06ab34bf0a019c8875524ad4bee73180727eeb0596bb9a50e"
@@ -534,7 +524,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.0939,
           "volume": 144.44,
-          "liquidity": 899.6636,
+          "liquidity": 872.6947,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xeae0b5b1cdb919fd0348d34e8a090adbe0ca2b420905ac39404b209a0a015ca4"
@@ -545,7 +535,7 @@ const DATA = {
           "mkt_p": 0.02,
           "gap": 0.0284,
           "volume": 0.0,
-          "liquidity": 1038.6388,
+          "liquidity": 1047.2751,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xa25b1be5c6e4159b60d694944a4c3a44cc431a92c1f104d3e0a9b14cabea02ce"
@@ -556,7 +546,7 @@ const DATA = {
           "mkt_p": 0.02,
           "gap": -0.0059,
           "volume": 0.0,
-          "liquidity": 1171.3644,
+          "liquidity": 1174.2305,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xf4029fe9316ab26f2a8e348bdbb2668f0ff9d688ca89471869d4161ee402c75c"
@@ -567,7 +557,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": -0.0015,
           "volume": 0.0,
-          "liquidity": 2530.0496,
+          "liquidity": 2715.0876,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x706557ba8ad7e5b262318ba6131bf105dbb4e19d1d0a7122a190136caff2d647"
@@ -578,7 +568,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": -0.004,
           "volume": 0.0,
-          "liquidity": 2881.525,
+          "liquidity": 2880.79989,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5f20405d28edaf6c77c3aed9b656bd02a184f188e3ef0e0f465c0152daa92d00"
@@ -586,10 +576,10 @@ const DATA = {
         {
           "label": "73\u00b0F or below",
           "our_p": 0.0047,
-          "mkt_p": 0.0445,
-          "gap": -0.0398,
+          "mkt_p": 0.04,
+          "gap": -0.0353,
           "volume": 35.98975,
-          "liquidity": 424.30398,
+          "liquidity": 409.64379,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xf38fc99339fd24f328f4804cd7d155d2e82af6d597917e0df1f15c2b7e6fe27c"
@@ -617,20 +607,20 @@ const DATA = {
         0.48,
         0.48,
         0.46,
+        0.4645,
         0.46,
         0.46,
         0.46,
-        0.46,
-        0.4657,
         0.47,
         0.46,
         0.46,
+        0.46,
         0.48,
-        0.48,
-        0.49,
-        0.4928484848,
-        0.48,
+        0.4793,
         0.4899999951,
+        0.48,
+        0.4744,
+        0.47,
         0.47,
         0.47,
         0.47,
@@ -656,7 +646,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0039,
           "volume": 385.054299,
-          "liquidity": 1057.20326,
+          "liquidity": 1105.75326,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x789209f9ef06b7e9ebf37c1649cc9d76d6efef6ef9eb470c07db684db1df3034"
@@ -667,7 +657,7 @@ const DATA = {
           "mkt_p": 0.0015,
           "gap": 0.0153,
           "volume": 192.42805199999998,
-          "liquidity": 826.10322,
+          "liquidity": 874.65322,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbb0c83b2f505526c8565655732796fa0824bde9fa30c48c91f485d4ce4f4ba52"
@@ -678,7 +668,7 @@ const DATA = {
           "mkt_p": 0.04,
           "gap": 0.0125,
           "volume": 1405.4550020000004,
-          "liquidity": 384.4846,
+          "liquidity": 367.5206,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbf8efb3a83950e0c04921a6070e149ab98eb6b513b142caea92c225f84ded577"
@@ -686,10 +676,10 @@ const DATA = {
         {
           "label": "82-83\u00b0F",
           "our_p": 0.1225,
-          "mkt_p": 0.19,
-          "gap": -0.0675,
+          "mkt_p": 0.185,
+          "gap": -0.0625,
           "volume": 7680.769332,
-          "liquidity": 688.2737,
+          "liquidity": 649.9343,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x0cb5cec4e3727c906279311e71c9955c07da218340cd4a19f6178b0df1a8b00b"
@@ -700,7 +690,7 @@ const DATA = {
           "mkt_p": 0.48,
           "gap": -0.2758,
           "volume": 5378.301470000001,
-          "liquidity": 898.7064,
+          "liquidity": 514.3594,
           "signal": "buy_no",
           "fee_frac": 0.0125,
           "condition_id": "0x34f2e6353b6d512212f6cddbbcec6c0739f910fc0b86903d90d6f35955db4e60"
@@ -711,7 +701,7 @@ const DATA = {
           "mkt_p": 0.25,
           "gap": -0.0113,
           "volume": 2745.326373,
-          "liquidity": 539.4067,
+          "liquidity": 526.0513,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x04f86e7cd98c0c873e74b96799f1caac20b7789aec13ca1d790f0b16f01dfd8d"
@@ -722,7 +712,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": 0.1638,
           "volume": 541.7868249999999,
-          "liquidity": 571.5425,
+          "liquidity": 576.9781,
           "signal": "buy_yes",
           "fee_frac": 0.0015,
           "condition_id": "0xb6c76b5eec48ceea2358db398923041563615ed6905c695847dfbbf6ae246af6"
@@ -733,7 +723,7 @@ const DATA = {
           "mkt_p": 0.01,
           "gap": 0.0991,
           "volume": 142.147019,
-          "liquidity": 544.89648,
+          "liquidity": 546.49136,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x13c4eb5312a4556a6bb9aac86458a582eaed8525cfb9a0de77b59197c9b4caa0"
@@ -811,7 +801,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0012,
           "volume": 244.99699999999999,
-          "liquidity": 4058.28126,
+          "liquidity": 4048.61916,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xb49abe38f6d32bbca89ffab73d07ffcd495064371a99e2582ee94fcacba0b74a"
@@ -822,7 +812,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": 0.0043,
           "volume": 184.537931,
-          "liquidity": 3536.9091,
+          "liquidity": 3550.9085,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x0b5852945e34683d830def89aede09df6e9f4f0dd1a96ad2de1aa682ad67b11a"
@@ -833,7 +823,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": 0.0188,
           "volume": 67.4319,
-          "liquidity": 2795.66446,
+          "liquidity": 2776.87632,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbfb499bcb7502298a34e70605a142a20f2393566a9cf51b9bfd5c461621850c9"
@@ -844,7 +834,7 @@ const DATA = {
           "mkt_p": 0.025,
           "gap": 0.0439,
           "volume": 11.0,
-          "liquidity": 2691.5167,
+          "liquidity": 2728.3803,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x3854685f8965b2133bacc2334c6e92a18c48b18e24460e65ca1f0220d0737d28"
@@ -855,7 +845,7 @@ const DATA = {
           "mkt_p": 0.065,
           "gap": 0.0793,
           "volume": 85.498464,
-          "liquidity": 2396.5611,
+          "liquidity": 2413.7533,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xab6e63e335cad9ad687f30b4d459dc494052ffce9e80ed05110c1a15bf94c6ff"
@@ -866,7 +856,7 @@ const DATA = {
           "mkt_p": 0.295,
           "gap": -0.0783,
           "volume": 578.900424,
-          "liquidity": 2930.185,
+          "liquidity": 2983.9788,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbe21ed1e661fe83ded5879ee5586c1ba8cd4414e3eb560d9deef2c1900e6be25"
@@ -877,7 +867,7 @@ const DATA = {
           "mkt_p": 0.445,
           "gap": -0.2149,
           "volume": 864.7458009999998,
-          "liquidity": 2660.6394,
+          "liquidity": 2591.1105,
           "signal": "buy_no",
           "fee_frac": 0.0123,
           "condition_id": "0xdc9fbc55547fea5084ebe7a89943af718c5412591e58deecb4db97e8a70c7420"
@@ -888,7 +878,7 @@ const DATA = {
           "mkt_p": 0.16,
           "gap": 0.0118,
           "volume": 29.32557,
-          "liquidity": 2630.1224,
+          "liquidity": 2736.2873,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5544c5c4641663c582f0588c11a8d57395c97141c928350e198ca1b95f02fbb9"
@@ -899,7 +889,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.0553,
           "volume": 10.52,
-          "liquidity": 2488.1361,
+          "liquidity": 2491.118,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5052c343c1899216fdac27f09f76e33af162cbe9125db84ab22978a7ec3cef6a"
@@ -907,10 +897,10 @@ const DATA = {
         {
           "label": "88\u00b0F or higher",
           "our_p": 0.0445,
-          "mkt_p": 0.005,
-          "gap": 0.0395,
+          "mkt_p": 0.0045,
+          "gap": 0.04,
           "volume": 10.0,
-          "liquidity": 2018.69311,
+          "liquidity": 2048.09145,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x52bf97a151f9541df403373f72d89ec26e7ad4b7665cd99602a38e6060dec6cc"
@@ -921,7 +911,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0001,
           "volume": 330.991,
-          "liquidity": 3845.65115,
+          "liquidity": 3835.98905,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x0faa9ab89479b65bff1fc98a417dcd651f39431ddc6cb8ebe19ffff08596fbf8"
@@ -957,7 +947,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0021,
           "volume": 0.0,
-          "liquidity": 2726.44471,
+          "liquidity": 2597.22471,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xcadb349a48b858e6cf179101b73e2e9bb57c3659368c1a6d885273966947156c"
@@ -968,7 +958,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0006,
           "volume": 0.0,
-          "liquidity": 2445.77771,
+          "liquidity": 2113.91171,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x51bdfb9414b48e7e72f136414d93f7122d3cf43367ac193b1dbd05c980514bd9"
@@ -979,7 +969,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0239,
           "volume": 0.0,
-          "liquidity": 1185.3596,
+          "liquidity": 1164.4496,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xa1570b4bb4e9ad18c9f50566c7a82c1e291a1d2e09da1394928011a57cddf865"
@@ -990,7 +980,7 @@ const DATA = {
           "mkt_p": 0.075,
           "gap": -0.0582,
           "volume": 0.0,
-          "liquidity": 1031.7196,
+          "liquidity": 1025.3196,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xdc87077121a194a75b375c08787e8b097d80d7380a7c21c478a3405b93887f11"
@@ -1001,7 +991,7 @@ const DATA = {
           "mkt_p": 0.095,
           "gap": -0.0407,
           "volume": 0.0,
-          "liquidity": 1442.8351,
+          "liquidity": 1426.1851,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x71bf5f3ec7ac41eb1df55f4855f01de8e528e8d406528ec83539ba0f96f4faf3"
@@ -1012,7 +1002,7 @@ const DATA = {
           "mkt_p": 0.175,
           "gap": -0.0299,
           "volume": 12.0,
-          "liquidity": 841.9202,
+          "liquidity": 966.9144,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x80fa131ad9d2f2f590b334c8b31e5fb857ddae6aab16cca506c675953972708f"
@@ -1023,7 +1013,7 @@ const DATA = {
           "mkt_p": 0.49,
           "gap": -0.2359,
           "volume": 102.809018,
-          "liquidity": 2307.1432,
+          "liquidity": 2342.7996,
           "signal": "buy_no",
           "fee_frac": 0.0125,
           "condition_id": "0xf2a0bc986db803910315cc5bbd189b54c020dea92d841e786c79fc9c3ea6df23"
@@ -1034,7 +1024,7 @@ const DATA = {
           "mkt_p": 0.18,
           "gap": 0.0899,
           "volume": 0.0,
-          "liquidity": 852.6188,
+          "liquidity": 843.8188,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xce94b41dc73a8ad2271d0d0f8c6e9dbbbb5c52ae93a5c8021d2f380079cacfe4"
@@ -1045,7 +1035,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.1354,
           "volume": 0.0,
-          "liquidity": 1076.2988,
+          "liquidity": 1077.1988,
           "signal": "buy_yes",
           "fee_frac": 0.0017,
           "condition_id": "0xf0f077e35a408c69f9fc18670a68553c9087d4833478069d50d35ff7700add09"
@@ -1067,7 +1057,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0027,
           "volume": 0.0,
-          "liquidity": 1311.60805,
+          "liquidity": 2056.10305,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8e7efedd447b08ff3a9d008bbee104f50ece8d625393b039fe1c8d2dfd0091f5"
@@ -1123,7 +1113,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": 0.1182,
           "volume": 194.248051,
-          "liquidity": 3155.21111,
+          "liquidity": 3178.32959,
           "signal": "buy_yes",
           "fee_frac": 0.0001,
           "condition_id": "0xf643b4716cda031e4adb475135ff3785171d14db1f7a73e130366cb064296d80"
@@ -1134,7 +1124,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.1805,
           "volume": 528.323733,
-          "liquidity": 3841.7123,
+          "liquidity": 3616.2752,
           "signal": "buy_yes",
           "fee_frac": 0.0017,
           "condition_id": "0xe2841ce78b45b6332495ea6e5bb888939c2e2498d445694ff7d959b2a0fedfcd"
@@ -1145,7 +1135,7 @@ const DATA = {
           "mkt_p": 0.125,
           "gap": 0.1257,
           "volume": 641.1893599999999,
-          "liquidity": 2755.0543,
+          "liquidity": 3383.4701,
           "signal": "buy_yes",
           "fee_frac": 0.0055,
           "condition_id": "0xb159eeb34da4a894007ad274c131b7279f3a951655f33f2c968edaf8d1bd56d5"
@@ -1153,12 +1143,12 @@ const DATA = {
         {
           "label": "84-85\u00b0F",
           "our_p": 0.1927,
-          "mkt_p": 0.31,
-          "gap": -0.1173,
+          "mkt_p": 0.3,
+          "gap": -0.1073,
           "volume": 569.3556970000001,
-          "liquidity": 4205.7779,
+          "liquidity": 4056.1753,
           "signal": "buy_no",
-          "fee_frac": 0.0107,
+          "fee_frac": 0.0105,
           "condition_id": "0x0219f1038284c62ee411e0e0e74f45b9549803e74cecfa30edbe2b34226a5163"
         },
         {
@@ -1167,7 +1157,7 @@ const DATA = {
           "mkt_p": 0.33,
           "gap": -0.2286,
           "volume": 2586.8924050000005,
-          "liquidity": 5973.0272,
+          "liquidity": 6027.5684,
           "signal": "buy_no",
           "fee_frac": 0.0111,
           "condition_id": "0xb3d61e6a2f136c87cc2698f47b1f978a83f6573cb1b8da1c0e4af42ac39a3162"
@@ -1175,12 +1165,12 @@ const DATA = {
         {
           "label": "88-89\u00b0F",
           "our_p": 0.0403,
-          "mkt_p": 0.18,
-          "gap": -0.1397,
+          "mkt_p": 0.185,
+          "gap": -0.1447,
           "volume": 1252.8502819999999,
-          "liquidity": 5297.8063,
+          "liquidity": 5344.2232,
           "signal": "buy_no",
-          "fee_frac": 0.0074,
+          "fee_frac": 0.0075,
           "condition_id": "0x23d8c206a6eff2e47d24978c7a7f3b70e16237982d1afc93fe0385f48035aae6"
         },
         {
@@ -1189,7 +1179,7 @@ const DATA = {
           "mkt_p": 0.045,
           "gap": -0.0304,
           "volume": 355.183208,
-          "liquidity": 2863.5283,
+          "liquidity": 2775.3356,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x36ad635817e6c41b406cb7467110b71b3fa1fabe6ac66bfcce5d08b1dcb58741"
@@ -1200,7 +1190,7 @@ const DATA = {
           "mkt_p": 0.005,
           "gap": 0.0005,
           "volume": 82.50659999999999,
-          "liquidity": 2522.4364,
+          "liquidity": 2719.64302,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x56daa10ad2659170b8692f616377fd4c0c171f1944dce215078171aae4401011"
@@ -1211,7 +1201,7 @@ const DATA = {
           "mkt_p": 0.0015,
           "gap": 0.0004,
           "volume": 203.149226,
-          "liquidity": 3090.72821,
+          "liquidity": 3196.87697,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xd6bc74733786bf9331b63ab1348442077ba9ae90feca261c31e498ea7bfc8204"
@@ -1222,7 +1212,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0002,
           "volume": 352.99100000000004,
-          "liquidity": 2933.37259,
+          "liquidity": 3102.89463,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x0e373bdd4fce79f85c7dcab55bbad322b9f2b1822ac10e1ef07ad17ca3773db5"
@@ -1233,7 +1223,7 @@ const DATA = {
           "mkt_p": 0.0015,
           "gap": 0.0545,
           "volume": 182.29199999999997,
-          "liquidity": 3097.7701,
+          "liquidity": 2914.179,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x4a45615e5f4998b0c7b3fe9a905ed26d7746bdd486ee20f74ebf59bd84f0d881"
@@ -1289,7 +1279,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.001,
           "volume": 193.997,
-          "liquidity": 2801.07379,
+          "liquidity": 4101.11647,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x9944fbde825635fc6c0441c673fce0c94d41a4cc638e561cbd345058a479256a"
@@ -1300,7 +1290,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0088,
           "volume": 198.974,
-          "liquidity": 3579.33685,
+          "liquidity": 3849.51069,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5986db08b3e247fb86ec8d79e0c2a71340c9287275c3abd5d744d2d227330054"
@@ -1311,7 +1301,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0391,
           "volume": 308.9886,
-          "liquidity": 2992.4593,
+          "liquidity": 3285.05374,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xe1aa3812384d93704a3080fe8c0630722df3c354657e3704b1e9abda5c0cc97f"
@@ -1322,7 +1312,7 @@ const DATA = {
           "mkt_p": 0.008,
           "gap": 0.1034,
           "volume": 163.37754999999999,
-          "liquidity": 2431.7512,
+          "liquidity": 2930.22054,
           "signal": "buy_yes",
           "fee_frac": 0.0004,
           "condition_id": "0x442aa1718f6d774aabdb62e0f5c445d3ab899a5e98482a351bcc0dadd249d029"
@@ -1330,10 +1320,10 @@ const DATA = {
         {
           "label": "92-93\u00b0F",
           "our_p": 0.2071,
-          "mkt_p": 0.11,
-          "gap": 0.0971,
+          "mkt_p": 0.115,
+          "gap": 0.0921,
           "volume": 768.401598,
-          "liquidity": 3262.0646,
+          "liquidity": 3636.2995,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xa0e63b7e1416c4115da5144302fae4d828f3187fc9074c18fcb4e7adaf0f29f6"
@@ -1344,7 +1334,7 @@ const DATA = {
           "mkt_p": 0.475,
           "gap": -0.2211,
           "volume": 2260.274966,
-          "liquidity": 3455.5527,
+          "liquidity": 3322.2912,
           "signal": "buy_no",
           "fee_frac": 0.0125,
           "condition_id": "0x3f57656c2e9900ffa2ff96f142212c4455456d89a7d6a3ac3b604137eced9613"
@@ -1352,10 +1342,10 @@ const DATA = {
         {
           "label": "96-97\u00b0F",
           "our_p": 0.2063,
-          "mkt_p": 0.415,
-          "gap": -0.2087,
+          "mkt_p": 0.41,
+          "gap": -0.2037,
           "volume": 1453.008308,
-          "liquidity": 4418.7183,
+          "liquidity": 4704.6246,
           "signal": "buy_no",
           "fee_frac": 0.0121,
           "condition_id": "0x10458ba81f5a122dd3293c051d10ca2c2296dac80508be17cbef0b4fd2a0074c"
@@ -1366,7 +1356,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": 0.0824,
           "volume": 691.4939980000001,
-          "liquidity": 3578.98,
+          "liquidity": 3416.7442,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8fe60292082db17e8d80cc1fbca4ad59b57f410debf01d748a7fec2c5567c9ab"
@@ -1377,7 +1367,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0419,
           "volume": 706.5853000000001,
-          "liquidity": 4907.0249,
+          "liquidity": 4816.5223,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xc2afada29da90464adf10ac52cfb2a3c4829a006a6ff1438e31af9a40ba2320f"
@@ -1388,7 +1378,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0153,
           "volume": 313.59850000000006,
-          "liquidity": 2617.08605,
+          "liquidity": 2907.47485,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x41730d2bbdf92c29b552a9036d55ff7e0b1137cc5a85196ef26cf17e9ee15e46"
@@ -1399,7 +1389,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": -0.0003,
           "volume": 346.976,
-          "liquidity": 3767.50833,
+          "liquidity": 4116.87501,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbfc9ba52b11eb43a4d3c59168d057d803c7e38766cc43b610dcc7a26b540b0ad"
@@ -1435,7 +1425,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.03,
           "volume": 0.0,
-          "liquidity": 1496.8394,
+          "liquidity": 1496.9441,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xf0f0ba2308898c0c75b17992bb4632d004a004e1c81a4c8627c63271ae847969"
@@ -1446,7 +1436,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0298,
           "volume": 0.0,
-          "liquidity": 972.5984,
+          "liquidity": 971.9042,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x4376031478b7fd44a762ef2282c8361db52ebc9df1f318b2fee1fb6c9519b6ae"
@@ -1457,7 +1447,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0264,
           "volume": 0.0,
-          "liquidity": 908.9579,
+          "liquidity": 915.7417,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5ea74165d4c356469325944088a77561624f0b11b6813b20139fdbcfe7d9aaed"
@@ -1468,7 +1458,7 @@ const DATA = {
           "mkt_p": 0.075,
           "gap": -0.0374,
           "volume": 0.0,
-          "liquidity": 1091.9999,
+          "liquidity": 1122.844,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x2105f1053724d5087ad6b2aa15f0fbfd79923b744d2c9311ad31b58cbf32e0e2"
@@ -1479,7 +1469,7 @@ const DATA = {
           "mkt_p": 0.28,
           "gap": -0.1061,
           "volume": 359.653078,
-          "liquidity": 2381.1797,
+          "liquidity": 2201.8505,
           "signal": "buy_no",
           "fee_frac": 0.0101,
           "condition_id": "0x5d3f40ec3a7ee92b2a06653d382e1c36927d894bda6a99162e58b7a1863a92ab"
@@ -1490,7 +1480,7 @@ const DATA = {
           "mkt_p": 0.465,
           "gap": -0.1162,
           "volume": 9.05,
-          "liquidity": 1968.8428,
+          "liquidity": 1902.3649,
           "signal": "buy_no",
           "fee_frac": 0.0124,
           "condition_id": "0xf8f4572855cc6799a062f2897f8e58eb8a09c89aecaac866277dcf75f25ee0e0"
@@ -1501,7 +1491,7 @@ const DATA = {
           "mkt_p": 0.18,
           "gap": 0.1227,
           "volume": 9.0,
-          "liquidity": 1545.3339,
+          "liquidity": 1577.5786,
           "signal": "buy_yes",
           "fee_frac": 0.0074,
           "condition_id": "0x51cf122ed56abf55a37c59498b8bfddbafb43df7e88b06296182175374872c03"
@@ -1512,7 +1502,7 @@ const DATA = {
           "mkt_p": 0.075,
           "gap": 0.0386,
           "volume": 33.0,
-          "liquidity": 1021.3852,
+          "liquidity": 1288.491,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x969c535e607a2592e2800cc0d208856d3ac887b8fafb72267aa2708dd7dcda9f"
@@ -1523,7 +1513,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0116,
           "volume": 0.0,
-          "liquidity": 940.7132,
+          "liquidity": 941.404,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbf4524b189b6cde17f8b28517cd701a00ebc829851e58d0c0871ae97f08a89c8"
@@ -1534,7 +1524,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0287,
           "volume": 0.0,
-          "liquidity": 167.9912,
+          "liquidity": 168.1954,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x2ce0e80403a2ca86a865190bbe7107efb6190d4a1af5bb89af4158ecf5c64922"
@@ -1545,7 +1535,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.003,
           "volume": 0.0,
-          "liquidity": 1558.43173,
+          "liquidity": 1555.92528,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x3b259aa2eda4eddefb257b19f92ecb4e946b204d88fc95afa14c059cb9ebd931"
@@ -1601,7 +1591,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": -0.0005,
           "volume": 373.28056699999996,
-          "liquidity": 4658.21242,
+          "liquidity": 4781.47291,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x4302af730083121367cb55e5113e8592ed5aeda72dc89c5c5ccd3f08eb723bf8"
@@ -1612,7 +1602,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": -0.0001,
           "volume": 247.8882,
-          "liquidity": 2539.67873,
+          "liquidity": 3491.85071,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8264a753d7889f0d226fcd17b034b77402b87534d01d774f263f07fc086c4e0e"
@@ -1623,7 +1613,7 @@ const DATA = {
           "mkt_p": 0.015,
           "gap": 0.0236,
           "volume": 684.1990999999999,
-          "liquidity": 3815.4869,
+          "liquidity": 3934.6544,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x69fbfad7b53e92cd4eba50a4ead66b3933acda9f8f950e00632e7ebfe167e1fa"
@@ -1634,7 +1624,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": 0.1782,
           "volume": 233.012224,
-          "liquidity": 3387.5692,
+          "liquidity": 3581.1558,
           "signal": "buy_yes",
           "fee_frac": 0.0015,
           "condition_id": "0x03f41b8ce33cba6fff50e6a20e284c0a1922a28d466c0e0b6510d57362fb5d15"
@@ -1645,7 +1635,7 @@ const DATA = {
           "mkt_p": 0.225,
           "gap": 0.1604,
           "volume": 993.028057,
-          "liquidity": 4688.0694,
+          "liquidity": 4612.7224,
           "signal": "buy_yes",
           "fee_frac": 0.0087,
           "condition_id": "0x6c002ba544bc2d3a21557c93fcf0c8605c715363a9b22fcc8933fb48c48ce8e0"
@@ -1656,7 +1646,7 @@ const DATA = {
           "mkt_p": 0.505,
           "gap": -0.2486,
           "volume": 1811.5643840000002,
-          "liquidity": 4742.418,
+          "liquidity": 4665.0333,
           "signal": "buy_no",
           "fee_frac": 0.0125,
           "condition_id": "0x5e369c0226ae6e095d7aed9029cf12281346a22f9fbaf4332565b1f144b0f58a"
@@ -1667,7 +1657,7 @@ const DATA = {
           "mkt_p": 0.235,
           "gap": -0.1555,
           "volume": 3114.742089,
-          "liquidity": 6262.6897,
+          "liquidity": 6258.7804,
           "signal": "buy_no",
           "fee_frac": 0.009,
           "condition_id": "0x21e61f62da3dd0463cf15c33f9dd470a14baf16eb3fadfa61fd7bb5b0d55415f"
@@ -1678,7 +1668,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": -0.0117,
           "volume": 464.731798,
-          "liquidity": 3607.7394,
+          "liquidity": 4677.0094,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8a6652e363eac246a269b02e8c992149e7182532c61f6f284dfdc79077151c3c"
@@ -1689,7 +1679,7 @@ const DATA = {
           "mkt_p": 0.0015,
           "gap": 0.004,
           "volume": 239.80999999999997,
-          "liquidity": 4099.12842,
+          "liquidity": 4262.91226,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbe79399d3444fdf37397fb376c86004e06a4ff5119911dadee60bd2e5904f113"
@@ -1700,7 +1690,7 @@ const DATA = {
           "mkt_p": 0.005,
           "gap": -0.0044,
           "volume": 105.96839999999999,
-          "liquidity": 3407.92421,
+          "liquidity": 3119.11621,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x77f23d8c6133298421a26270c76eed696baa01032eebaad0afd0a5ade4eba8d3"
@@ -1711,7 +1701,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": -0.0005,
           "volume": 239.99099999999999,
-          "liquidity": 3954.75573,
+          "liquidity": 3922.73685,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x2284f995a2bed97bd05c41801fef9f0eace46741622a359d02be60508958780c"
@@ -1747,7 +1737,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0029,
           "volume": 0.0,
-          "liquidity": 1400.79509,
+          "liquidity": 1400.11041,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x4f62ee1c8a2ba8a673d865a531f4c111e6716de06f4b772c43cfbf44221f9cb1"
@@ -1758,7 +1748,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0267,
           "volume": 0.0,
-          "liquidity": 1028.3694,
+          "liquidity": 1028.4741,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x203e17ad76fc273b5fa046ed5bc8680ab99215f44892af03a80083fd735646b1"
@@ -1769,7 +1759,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": 0.0075,
           "volume": 0.0,
-          "liquidity": 903.3558,
+          "liquidity": 1065.9134,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x856c22f5f0a12f386205c92376e1cc7c3c55eafaabe4cdab661b67cf5127aab9"
@@ -1780,7 +1770,7 @@ const DATA = {
           "mkt_p": 0.07,
           "gap": 0.1059,
           "volume": 0.0,
-          "liquidity": 996.1184,
+          "liquidity": 996.2246,
           "signal": "buy_yes",
           "fee_frac": 0.0033,
           "condition_id": "0x1fde34688ad34ff9a88f775601aad42e39784da3376c65249e2a3739b65b1b8f"
@@ -1788,12 +1778,12 @@ const DATA = {
         {
           "label": "88-89\u00b0F",
           "our_p": 0.3431,
-          "mkt_p": 0.135,
-          "gap": 0.2081,
+          "mkt_p": 0.15,
+          "gap": 0.1931,
           "volume": 2.0,
-          "liquidity": 1368.3567,
+          "liquidity": 1325.9744,
           "signal": "buy_yes",
-          "fee_frac": 0.0058,
+          "fee_frac": 0.0064,
           "condition_id": "0xe1e79d529783e8b13ae105e45caa6e61c41b0fc96e2de40e7491a37da12616f4"
         },
         {
@@ -1802,7 +1792,7 @@ const DATA = {
           "mkt_p": 0.455,
           "gap": -0.1692,
           "volume": 160.43716,
-          "liquidity": 1872.7044,
+          "liquidity": 2019.1968,
           "signal": "buy_no",
           "fee_frac": 0.0124,
           "condition_id": "0xc8005c31fb5bf2f3b351efc254cf5ea8ed7ceba797850210e768271c4081c6c4"
@@ -1813,7 +1803,7 @@ const DATA = {
           "mkt_p": 0.33,
           "gap": -0.2176,
           "volume": 129.884781,
-          "liquidity": 1541.8939,
+          "liquidity": 2000.118,
           "signal": "buy_no",
           "fee_frac": 0.0111,
           "condition_id": "0x7fcff4da563ffe94a685605f5695f3312d3ec7bc5d4976f2e2e60e298932288c"
@@ -1824,7 +1814,7 @@ const DATA = {
           "mkt_p": 0.09,
           "gap": -0.0593,
           "volume": 32.0,
-          "liquidity": 1504.2526,
+          "liquidity": 1505.2273,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xbbe8f0a018190ce705e0c642eed8fffb67b0957697860058b1ff7826827929b8"
@@ -1835,7 +1825,7 @@ const DATA = {
           "mkt_p": 0.065,
           "gap": -0.0561,
           "volume": 47.73165,
-          "liquidity": 1238.36,
+          "liquidity": 1206.6438,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x61249b0de90ddd4d9f5beb70e7735f0a0357c59b748fa762602778f8aba82a83"
@@ -1846,7 +1836,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0278,
           "volume": 0.0,
-          "liquidity": 240.7916,
+          "liquidity": 203.3954,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xa57db4f280bd34e70bf7c6338ae989e9aaf0fce05f4b7a332dc4d63e5b355de6"
@@ -1857,7 +1847,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.003,
           "volume": 0.0,
-          "liquidity": 1823.71721,
+          "liquidity": 1824.2604,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x3af3d6c503a328d9a954a8a50abb81074dda9ed5cfb7ac5e4a2d88fba5e4f31f"
@@ -1881,30 +1871,30 @@ const DATA = {
       },
       "headline_bucket": "98-99\u00b0F",
       "spark": [
-        0.4299999241,
         0.43,
         0.43,
         0.42,
-        0.4,
+        0.44,
         0.4498,
         0.45,
-        0.4499997975,
+        0.4599998097,
         0.45,
         0.4738919444,
-        0.46,
+        0.48,
         0.48,
         0.48,
         0.4899999559,
         0.4899999951,
         0.4899998285,
-        0.4899999966,
+        0.4899999977,
         0.49,
         0.4899998285,
-        0.5,
+        0.49,
         0.5093859834,
         0.5,
+        0.5,
         0.5099999314,
-        0.51
+        0.54
       ],
       "buckets": [
         {
@@ -1913,7 +1903,7 @@ const DATA = {
           "mkt_p": 0.005,
           "gap": 0.0143,
           "volume": 198.322,
-          "liquidity": 2505.37775,
+          "liquidity": 3280.65595,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8b9d787de6a4097469e6ffe3709e102060baec412b5456c7c775ff892de12a5e"
@@ -1924,7 +1914,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": 0.0895,
           "volume": 14.9869,
-          "liquidity": 3054.19898,
+          "liquidity": 2847.15698,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x62cff57911a791e593f39f96e0fe0950563c2fa2a6f55153a41e92784731d545"
@@ -1932,45 +1922,45 @@ const DATA = {
         {
           "label": "94-95\u00b0F",
           "our_p": 0.2408,
-          "mkt_p": 0.03,
-          "gap": 0.2108,
+          "mkt_p": 0.035,
+          "gap": 0.2058,
           "volume": 21.0,
-          "liquidity": 2408.3951,
+          "liquidity": 2524.7407,
           "signal": "buy_yes",
-          "fee_frac": 0.0015,
+          "fee_frac": 0.0017,
           "condition_id": "0xb3fa1d54be4ca5f65a909ffacc44b673648047a365d5a5b233cb765076c495a4"
         },
         {
           "label": "96-97\u00b0F",
           "our_p": 0.3155,
-          "mkt_p": 0.12,
-          "gap": 0.1955,
+          "mkt_p": 0.125,
+          "gap": 0.1905,
           "volume": 312.32322,
-          "liquidity": 2130.3012,
+          "liquidity": 1918.2189,
           "signal": "buy_yes",
-          "fee_frac": 0.0053,
+          "fee_frac": 0.0055,
           "condition_id": "0xdb9b682b4bddde523712ed9fe29cc3b9d0e4b140466add578bfe0bec57e0cd86"
         },
         {
           "label": "98-99\u00b0F",
           "our_p": 0.2173,
-          "mkt_p": 0.505,
-          "gap": -0.2877,
+          "mkt_p": 0.535,
+          "gap": -0.3177,
           "volume": 3185.0685999999996,
-          "liquidity": 3950.2008,
+          "liquidity": 3341.4401,
           "signal": "buy_no",
-          "fee_frac": 0.0125,
+          "fee_frac": 0.0124,
           "condition_id": "0xc0fc17e3e5aa4a5125a02432fc5ed9da0b4128374b64979eaa48fe9288519583"
         },
         {
           "label": "100-101\u00b0F",
           "our_p": 0.0829,
-          "mkt_p": 0.285,
-          "gap": -0.2021,
+          "mkt_p": 0.26,
+          "gap": -0.1771,
           "volume": 295.60702699999996,
-          "liquidity": 1989.2215,
+          "liquidity": 2144.6329,
           "signal": "buy_no",
-          "fee_frac": 0.0102,
+          "fee_frac": 0.0096,
           "condition_id": "0x942776807cc9a9ef81232998f81ed114bd1f8d508b6c8d6b846d5edaadb1f085"
         },
         {
@@ -1979,7 +1969,7 @@ const DATA = {
           "mkt_p": 0.055,
           "gap": -0.0342,
           "volume": 75.490665,
-          "liquidity": 2059.3915,
+          "liquidity": 2020.2263,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x2b3ebb76d3a22f7eda080d664b6521b14e3f8100ef933a8a920f9918c7d06a63"
@@ -1990,7 +1980,7 @@ const DATA = {
           "mkt_p": 0.015,
           "gap": -0.0102,
           "volume": 128.7835,
-          "liquidity": 2496.2674,
+          "liquidity": 2716.563,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x677aa5be68abc4d362b82dd298523c1dbcffe3048e78641a91b87b67695f6161"
@@ -2001,7 +1991,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": -0.0014,
           "volume": 40.5139,
-          "liquidity": 2730.44695,
+          "liquidity": 2526.37695,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5b4316b86440153d658974ec2434dea785fe944b71cf11acf2458662ad9d372c"
@@ -2012,7 +2002,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": -0.0022,
           "volume": 57.056999999999995,
-          "liquidity": 2627.97285,
+          "liquidity": 2586.80583,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x32747bd238cdd35571762e78fa03a380376ad1f6bdfb7beef917cf562e7ff2e5"
@@ -2023,7 +2013,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0017,
           "volume": 249.99099999999999,
-          "liquidity": 3193.32996,
+          "liquidity": 2975.21528,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x521ab907762d96e5fbcef1c7286da473541ab1a30e30d26ae016d8297e44bb16"
@@ -2063,7 +2053,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": 0.0083,
           "volume": 18.008,
-          "liquidity": 1712.61577,
+          "liquidity": 2580.28589,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8585f3d3751b24c7ad11127e8d720ddc3995676aef620cb95a2a6a222a8b8580"
@@ -2074,7 +2064,7 @@ const DATA = {
           "mkt_p": 0.04,
           "gap": 0.0155,
           "volume": 0.0,
-          "liquidity": 1238.6785,
+          "liquidity": 1221.1879,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5e2e458f47374766e2a15533291e336cafd77f7a0ff7e1394f8c40178977451c"
@@ -2096,7 +2086,7 @@ const DATA = {
           "mkt_p": 0.085,
           "gap": 0.1984,
           "volume": 23.604388,
-          "liquidity": 1289.7528,
+          "liquidity": 1300.4528,
           "signal": "buy_yes",
           "fee_frac": 0.0039,
           "condition_id": "0x1686378baa6c55080c7ef3ab8e8603d3cb8663beed799d3c369a42eade435ace"
@@ -2107,7 +2097,7 @@ const DATA = {
           "mkt_p": 0.525,
           "gap": -0.251,
           "volume": 183.92078299999997,
-          "liquidity": 2079.7352,
+          "liquidity": 2199.1755,
           "signal": "buy_no",
           "fee_frac": 0.0125,
           "condition_id": "0x9e6cef702af18fc4aed3fcdecd21a37fb8a0a6e2139000ead91aa39c66db71dd"
@@ -2118,7 +2108,7 @@ const DATA = {
           "mkt_p": 0.385,
           "gap": -0.2344,
           "volume": 119.86631299999999,
-          "liquidity": 2098.1977,
+          "liquidity": 2138.81,
           "signal": "buy_no",
           "fee_frac": 0.0118,
           "condition_id": "0x56e2a7db6f2a0590103f780b6f5a316d53a57fac66b0d21972c9205901358173"
@@ -2129,7 +2119,7 @@ const DATA = {
           "mkt_p": 0.07,
           "gap": -0.0223,
           "volume": 24.17894,
-          "liquidity": 1195.7558,
+          "liquidity": 1165.4558,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x3e1d126e43fac2f966ec26d709c41898bbae0a2eda57e8d41510ac9abf6d55f1"
@@ -2140,7 +2130,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": -0.0259,
           "volume": 0.0,
-          "liquidity": 1031.2183,
+          "liquidity": 1058.5683,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x29d53de0dad86e9c5bfca960b1e29c949f58a6b39eb88547145afbf98235cd5f"
@@ -2151,7 +2141,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": -0.0013,
           "volume": 18.008,
-          "liquidity": 1340.32377,
+          "liquidity": 1340.14377,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xb45f411df41202551f29c8c6f4d0d7e2d41d923b31f9f3b39ea2c57c5567d072"
@@ -2229,7 +2219,7 @@ const DATA = {
           "mkt_p": 0.0015,
           "gap": -0.0002,
           "volume": 44.783,
-          "liquidity": 3765.28124,
+          "liquidity": 3864.34088,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x9744eda67c53a803783540d7a8a1581ae8bd654fa84beb2542d95c0051e34503"
@@ -2240,7 +2230,7 @@ const DATA = {
           "mkt_p": 0.004,
           "gap": 0.0045,
           "volume": 249.8297,
-          "liquidity": 4918.4067,
+          "liquidity": 4902.88108,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x7e0cd925047ee9d5e1a08eb357a9140086741fe0f9be48725f3260d1d3e48f5d"
@@ -2251,7 +2241,7 @@ const DATA = {
           "mkt_p": 0.025,
           "gap": 0.0125,
           "volume": 302.0,
-          "liquidity": 3152.5626,
+          "liquidity": 3195.8221,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xc64e3c72f9c926d9e09ab46e96d046c3f3b143163dceba991d9f08cf8c281ab9"
@@ -2262,7 +2252,7 @@ const DATA = {
           "mkt_p": 0.15,
           "gap": -0.0397,
           "volume": 3656.664855,
-          "liquidity": 3711.9671,
+          "liquidity": 3249.52,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x755f98ce71ad349ba856424a970cc0cede1250bdf1205efcddb9b0e73df96429"
@@ -2273,7 +2263,7 @@ const DATA = {
           "mkt_p": 0.68,
           "gap": -0.4692,
           "volume": 1491.034052,
-          "liquidity": 5697.6118,
+          "liquidity": 6544.2222,
           "signal": "buy_no",
           "fee_frac": 0.0109,
           "condition_id": "0x3491883f819ac49e18d30ebaf61143c544b07a1f98de61addb6f5024b6c9bd51"
@@ -2284,7 +2274,7 @@ const DATA = {
           "mkt_p": 0.15,
           "gap": 0.111,
           "volume": 438.05702700000006,
-          "liquidity": 2342.5448,
+          "liquidity": 2976.5769,
           "signal": "buy_yes",
           "fee_frac": 0.0064,
           "condition_id": "0x7f37c5f394ca61a909776c684579767da694e86ae3864370b6a1bd83ee473423"
@@ -2295,7 +2285,7 @@ const DATA = {
           "mkt_p": 0.025,
           "gap": 0.1844,
           "volume": 67.082466,
-          "liquidity": 2654.3523,
+          "liquidity": 2697.0551,
           "signal": "buy_yes",
           "fee_frac": 0.0012,
           "condition_id": "0x1aeb828fdc995f2933b7662f079e023913c39f21cf357b00c0ca29d45d048b2e"
@@ -2306,7 +2296,7 @@ const DATA = {
           "mkt_p": 0.006,
           "gap": 0.1039,
           "volume": 138.2979,
-          "liquidity": 3382.55224,
+          "liquidity": 3372.76932,
           "signal": "buy_yes",
           "fee_frac": 0.0003,
           "condition_id": "0x96f9aa7805568bd859a3673fe69176025d795ba1a8e47709a83a4e9cbc243f02"
@@ -2317,7 +2307,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": 0.0362,
           "volume": 104.2887,
-          "liquidity": 4494.47685,
+          "liquidity": 4582.5822,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x5199264112d1c0d8d4b9edc6b7013d852334eeba5e863f64d6213c84a3c11ff5"
@@ -2328,7 +2318,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": 0.0099,
           "volume": 345.9162,
-          "liquidity": 2172.1371,
+          "liquidity": 3170.92218,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x90ed74db0bb6e4958e1009dbe82af115d878149b34007f73cd3f2102207f4b83"
@@ -2339,7 +2329,7 @@ const DATA = {
           "mkt_p": 0.002,
           "gap": -0.0018,
           "volume": 31.0,
-          "liquidity": 2550.70524,
+          "liquidity": 3713.95629,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x86e2c2dd937c5de4c7c3faaec37961df1ceb794429a26d8383d13c3249429e89"
@@ -2395,7 +2385,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0029,
           "volume": 0.0,
-          "liquidity": 2467.35978,
+          "liquidity": 2598.08878,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x6f37e090d0a7e75bad53e67ff332135b0371683e4ac26cce7dba1a429c9ee460"
@@ -2428,7 +2418,7 @@ const DATA = {
           "mkt_p": 0.095,
           "gap": -0.0167,
           "volume": 0.0,
-          "liquidity": 939.3929,
+          "liquidity": 942.9029,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x7ff86cef27556044177571f6b936b19453058654fcccbeadc682507a7f2eca6f"
@@ -2436,12 +2426,12 @@ const DATA = {
         {
           "label": "98-99\u00b0F",
           "our_p": 0.2119,
-          "mkt_p": 0.29,
-          "gap": -0.0781,
+          "mkt_p": 0.35,
+          "gap": -0.1381,
           "volume": 532.006475,
-          "liquidity": 1565.8077,
-          "signal": null,
-          "fee_frac": null,
+          "liquidity": 1550.5965,
+          "signal": "buy_no",
+          "fee_frac": 0.0114,
           "condition_id": "0xf5b1a2240b7c8d12f0bbc0deb31ae370d1536430ead53ab723f889c2598c970f"
         },
         {
@@ -2450,7 +2440,7 @@ const DATA = {
           "mkt_p": 0.34,
           "gap": -0.0316,
           "volume": 11.387629,
-          "liquidity": 1003.8681,
+          "liquidity": 1260.7081,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8a7a666ed276e55e52fdc4b286fa566dd4ccb3f28d7ca5e5d723d205f3ef7d9f"
@@ -2461,7 +2451,7 @@ const DATA = {
           "mkt_p": 0.19,
           "gap": 0.0525,
           "volume": 0.0,
-          "liquidity": 844.1734,
+          "liquidity": 862.4434,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8d443b07c3334c3d1c2fa36b6fc63b95c1d01072dc5f7050598123c8956cd2ab"
@@ -2494,7 +2484,7 @@ const DATA = {
           "mkt_p": 0.03,
           "gap": -0.0225,
           "volume": 0.0,
-          "liquidity": 271.6688,
+          "liquidity": 272.5688,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xa5c39534e853bf8bc732a2f90ee96aacbff475d28286ed4f2c157fed3a2d6fca"
@@ -2505,7 +2495,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.003,
           "volume": 0.0,
-          "liquidity": 2224.06945,
+          "liquidity": 2228.83145,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xb0182b3e99c3145a1289bf4e276929cdbe6d64dddbbc20196542605d2e9cd200"
@@ -2529,29 +2519,29 @@ const DATA = {
       },
       "headline_bucket": "88-89\u00b0F",
       "spark": [
-        0.38,
-        0.38,
         0.37,
         0.37,
         0.37,
-        0.37,
-        0.3499999475,
         0.3499998775,
         0.3,
+        0.2968,
         0.2799999048,
-        0.2799999048,
-        0.2799999966,
-        0.2899870179,
+        0.2799999494,
+        0.28,
         0.2899998386,
-        0.3099998295,
-        0.33,
+        0.28,
+        0.32,
         0.3799999243,
+        0.34,
         0.37,
         0.36,
-        0.36,
-        0.3799999012,
-        0.3522,
+        0.3899999558,
+        0.3514,
         0.3448,
+        0.36,
+        0.36,
+        0.36,
+        0.36,
         0.36
       ],
       "buckets": [
@@ -2561,7 +2551,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0196,
           "volume": 289.9811,
-          "liquidity": 2906.8112,
+          "liquidity": 2829.58153,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x916ac56e9f8161111934e777ef646ec635ba3b500dc8771ee4cb2b44522ec2bb"
@@ -2572,7 +2562,7 @@ const DATA = {
           "mkt_p": 0.0105,
           "gap": 0.0535,
           "volume": 110.35340000000001,
-          "liquidity": 2603.19994,
+          "liquidity": 2414.31488,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x704ebf39a70b7d6340e844538450b493e57a5f71213e2fc6430162886c61255a"
@@ -2583,7 +2573,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.1065,
           "volume": 39.32915,
-          "liquidity": 2565.0544,
+          "liquidity": 2502.9587,
           "signal": "buy_yes",
           "fee_frac": 0.0017,
           "condition_id": "0xdbca006ac62b1bb77e2d1657b5b1560db976fd361a9f9aa9d155fd0bc289302f"
@@ -2594,7 +2584,7 @@ const DATA = {
           "mkt_p": 0.09,
           "gap": 0.1273,
           "volume": 487.1275360000001,
-          "liquidity": 2080.8423,
+          "liquidity": 1902.4407,
           "signal": "buy_yes",
           "fee_frac": 0.0041,
           "condition_id": "0x89e3a2503bbe717f665a68d14dc5e50026c68ffe0dfc7c47da457f7f3c10b35f"
@@ -2605,7 +2595,7 @@ const DATA = {
           "mkt_p": 0.34,
           "gap": -0.1072,
           "volume": 723.0039259999999,
-          "liquidity": 2910.191,
+          "liquidity": 2804.9247,
           "signal": "buy_no",
           "fee_frac": 0.0112,
           "condition_id": "0x9d11b55d8901a4c88008278818a8173dbf60f2718049260cb760b55859b90d19"
@@ -2613,12 +2603,12 @@ const DATA = {
         {
           "label": "88-89\u00b0F",
           "our_p": 0.1749,
-          "mkt_p": 0.365,
-          "gap": -0.1901,
+          "mkt_p": 0.36,
+          "gap": -0.1851,
           "volume": 859.971557,
-          "liquidity": 2636.4016,
+          "liquidity": 2775.8632,
           "signal": "buy_no",
-          "fee_frac": 0.0116,
+          "fee_frac": 0.0115,
           "condition_id": "0x32537f9338bc2a479c3f7d5f6468afe7c7aa03641737cb075cde734eeff5acf4"
         },
         {
@@ -2627,7 +2617,7 @@ const DATA = {
           "mkt_p": 0.125,
           "gap": -0.0316,
           "volume": 289.513636,
-          "liquidity": 2308.1303,
+          "liquidity": 2155.0571,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x705da35852f5978b67d0a31881802e8534420af37f75b3bf8f60787732ddd1a4"
@@ -2638,7 +2628,7 @@ const DATA = {
           "mkt_p": 0.045,
           "gap": -0.0085,
           "volume": 293.858655,
-          "liquidity": 2252.5158,
+          "liquidity": 2039.701,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x73eb549f1b38c2f966eb8654aba374d418f79438b474abac6fa26c68329bd987"
@@ -2649,7 +2639,7 @@ const DATA = {
           "mkt_p": 0.015,
           "gap": -0.0041,
           "volume": 70.50150000000001,
-          "liquidity": 2704.1495,
+          "liquidity": 2694.2259,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x61fa42b5dcbeb3ee4c339bf3104cfa1eaac37620e812a4805f62d8e641e73085"
@@ -2660,7 +2650,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": -0.002,
           "volume": 154.9336,
-          "liquidity": 2207.46085,
+          "liquidity": 2557.61661,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x47b062ed38aae2220a31c1ced24d4d8771be42fcaf6e0a1677751a82b6ed45c5"
@@ -2671,7 +2661,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": 0.0046,
           "volume": 315.991,
-          "liquidity": 3073.35647,
+          "liquidity": 3075.40207,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x4686464ad414ded93ad24c0708f1ef72d0de1b6e90716f51c0f3c767cb7cf56a"
@@ -2706,7 +2696,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0018,
           "volume": 0.0,
-          "liquidity": 1162.72577,
+          "liquidity": 1722.85877,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x9a9be8a664ce81e6c4414b65e09e8df9b39dc0581e30196fc37ca43a9013699d"
@@ -2717,7 +2707,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": 0.0039,
           "volume": 0.0,
-          "liquidity": 1586.50541,
+          "liquidity": 1583.98541,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x650a53ac3106c96b8b6b02fc575f8dc2753770d0e3a9f6d5cd635a7caaf03aae"
@@ -2728,7 +2718,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": 0.0243,
           "volume": 0.0,
-          "liquidity": 1414.1292,
+          "liquidity": 1452.3052,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x9c8a2f0567d59cd94ea53dec549088b496ae762390bcf9fc2e80a9cad3b6555e"
@@ -2747,10 +2737,10 @@ const DATA = {
         {
           "label": "80-81\u00b0F",
           "our_p": 0.1522,
-          "mkt_p": 0.24,
-          "gap": -0.0878,
+          "mkt_p": 0.245,
+          "gap": -0.0928,
           "volume": 1.5,
-          "liquidity": 1232.9924,
+          "liquidity": 1515.7724,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x3d6efee9cec04adee61a0996faf8d9b6afc6d317a967db847ee291c762d193d6"
@@ -2761,7 +2751,7 @@ const DATA = {
           "mkt_p": 0.34,
           "gap": -0.1246,
           "volume": 1.5,
-          "liquidity": 1569.1267,
+          "liquidity": 1567.3766,
           "signal": "buy_no",
           "fee_frac": 0.0112,
           "condition_id": "0x0a3c7ff52c3cf1746f3b6b8533a9c4237edabc349f26602640ae33ab0e15f9fa"
@@ -2772,7 +2762,7 @@ const DATA = {
           "mkt_p": 0.255,
           "gap": -0.0367,
           "volume": 61.493477,
-          "liquidity": 1509.458,
+          "liquidity": 1518.6466,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x98a7b2544a30de21f8b85b8752cf6d649f9140abdb0dfba7d8dc74c40aab4f91"
@@ -2780,10 +2770,10 @@ const DATA = {
         {
           "label": "86-87\u00b0F",
           "our_p": 0.1604,
-          "mkt_p": 0.11,
-          "gap": 0.0504,
+          "mkt_p": 0.1,
+          "gap": 0.0604,
           "volume": 21.045713,
-          "liquidity": 1178.0715,
+          "liquidity": 1244.8315,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xf656456c189e0761054e9325fdb1a9476041240b12ff7fae9ea47669f54f8df1"
@@ -2794,7 +2784,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.0524,
           "volume": 0.0,
-          "liquidity": 794.6571,
+          "liquidity": 913.5167,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x918435a7f1f0d4e5049cdec096d0baedc206c83027f24427399599a8d20ad8ce"
@@ -2816,7 +2806,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0028,
           "volume": 0.0,
-          "liquidity": 1801.18294,
+          "liquidity": 1801.13897,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xac6bd83e8c1cd78883973908cc11a523d2021ec74edd78649e56a10fa6bde604"
@@ -2869,10 +2859,10 @@ const DATA = {
         {
           "label": "62-63\u00b0F",
           "our_p": 0.0029,
-          "mkt_p": 0.04,
-          "gap": -0.0371,
+          "mkt_p": 0.06,
+          "gap": -0.0571,
           "volume": 2215.0653789999997,
-          "liquidity": 771.309,
+          "liquidity": 451.0801,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xb3bd30b4df127092a11ed878e76c51092f8bce9c0e0443dfa468a08780f9f115"
@@ -2880,10 +2870,10 @@ const DATA = {
         {
           "label": "64-65\u00b0F",
           "our_p": 0.0267,
-          "mkt_p": 0.095,
-          "gap": -0.0683,
+          "mkt_p": 0.1,
+          "gap": -0.0733,
           "volume": 3959.921185000001,
-          "liquidity": 521.4862,
+          "liquidity": 643.166,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8c23b4137304c410a3720a975e9e23a2e7f8d6d9cc9d916c41b8a4c3be858328"
@@ -2894,7 +2884,7 @@ const DATA = {
           "mkt_p": 0.155,
           "gap": -0.0066,
           "volume": 1970.507638,
-          "liquidity": 670.1662,
+          "liquidity": 665.9543,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x9f07bdb89c3ab6132dad848e30699274afe60778b55d3a978fc7516411741807"
@@ -2905,7 +2895,7 @@ const DATA = {
           "mkt_p": 0.525,
           "gap": -0.1762,
           "volume": 2949.643779000001,
-          "liquidity": 577.8754,
+          "liquidity": 677.5357,
           "signal": "buy_no",
           "fee_frac": 0.0125,
           "condition_id": "0xf43e959e4bbd0d190c2fc43c160843b3adda9cf7c5600708f2a5b40d35aa0b48"
@@ -2913,12 +2903,12 @@ const DATA = {
         {
           "label": "70-71\u00b0F",
           "our_p": 0.3263,
-          "mkt_p": 0.205,
-          "gap": 0.1213,
+          "mkt_p": 0.195,
+          "gap": 0.1313,
           "volume": 1153.593371,
-          "liquidity": 552.2928,
+          "liquidity": 607.2281,
           "signal": "buy_yes",
-          "fee_frac": 0.0081,
+          "fee_frac": 0.0078,
           "condition_id": "0x905c0bce8768e3fd38b3050b8d004cd34cd03b4efe399bda8459843c8b1c82c2"
         },
         {
@@ -2927,7 +2917,7 @@ const DATA = {
           "mkt_p": 0.025,
           "gap": 0.0975,
           "volume": 860.106704,
-          "liquidity": 1018.6112,
+          "liquidity": 737.7595,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xeabb41cebe53fe5b9c5be48b467328abe4fcab6cecfb763109dd1fd6d7d03cab"
@@ -2960,7 +2950,7 @@ const DATA = {
           "mkt_p": 0.0005,
           "gap": -0.0001,
           "volume": 162.19,
-          "liquidity": 2152.63797,
+          "liquidity": 2169.73797,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xa68b2968a168c48232584cf0fc8f92c634c21b6d0095c98c6dc0888cb13e5413"
@@ -2979,10 +2969,10 @@ const DATA = {
         {
           "label": "61\u00b0F or below",
           "our_p": 0.0004,
-          "mkt_p": 0.0105,
-          "gap": -0.0101,
+          "mkt_p": 0.0095,
+          "gap": -0.0091,
           "volume": 2936.772903,
-          "liquidity": 1115.55488,
+          "liquidity": 1157.83146,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x28fbe8797ac775d4456fc7a4d153f39783d325189994171f7bb7d529a0fc7aad"
@@ -3038,7 +3028,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0022,
           "volume": 8.985,
-          "liquidity": 2473.26805,
+          "liquidity": 3408.05747,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x811309f6567fcfe5c2027a2ee16aff991ab3b9a83e100e12cdd2a2c4cce7628e"
@@ -3049,7 +3039,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": -0.0027,
           "volume": 44.629433,
-          "liquidity": 2851.8404,
+          "liquidity": 2836.05461,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xb0308361d772951c15e072817bb6a1084e158e826ae6b11f02daf9c360a9e1f6"
@@ -3060,7 +3050,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": -0.0229,
           "volume": 72.1283,
-          "liquidity": 2663.6981,
+          "liquidity": 2703.7905,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x011b05fc663d852222aacdfd2485a65cf7f0cc5e29b58edbe5744d1a7fcd69cb"
@@ -3071,7 +3061,7 @@ const DATA = {
           "mkt_p": 0.06,
           "gap": -0.0087,
           "volume": 283.141781,
-          "liquidity": 2857.0145,
+          "liquidity": 2920.5152,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x90f4ba9ab2df5e131db0d42409e1a1a7668faf4571026df3e30b62a2971a0706"
@@ -3082,7 +3072,7 @@ const DATA = {
           "mkt_p": 0.34,
           "gap": -0.1883,
           "volume": 832.615111,
-          "liquidity": 3138.9841,
+          "liquidity": 3447.2866,
           "signal": "buy_no",
           "fee_frac": 0.0112,
           "condition_id": "0x1b737e9a4c675c719af64ac913efafa9be6b477e07343787133d9b9f4bfe5b43"
@@ -3090,10 +3080,10 @@ const DATA = {
         {
           "label": "70-71\u00b0F",
           "our_p": 0.2699,
-          "mkt_p": 0.42,
-          "gap": -0.1501,
+          "mkt_p": 0.425,
+          "gap": -0.1551,
           "volume": 545.7849860000001,
-          "liquidity": 2881.4072,
+          "liquidity": 2835.1008,
           "signal": "buy_no",
           "fee_frac": 0.0122,
           "condition_id": "0x4c937d1df9dc7f07966f1c579edbce195a239ef8ee7b013d56da2254dad0a8c5"
@@ -3104,7 +3094,7 @@ const DATA = {
           "mkt_p": 0.155,
           "gap": 0.1226,
           "volume": 402.93744300000003,
-          "liquidity": 2871.5202,
+          "liquidity": 2895.6261,
           "signal": "buy_yes",
           "fee_frac": 0.0065,
           "condition_id": "0x59a2c28c19fd05fd3bdc7d1f5ad4efdffbcdc8a2a285d4c2a6feef53e3183d91"
@@ -3115,7 +3105,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.1287,
           "volume": 91.836166,
-          "liquidity": 2629.7894,
+          "liquidity": 2704.8443,
           "signal": "buy_yes",
           "fee_frac": 0.0017,
           "condition_id": "0xb4d44693a9b9e7a5164a918a793991b04c6b07ae8a8e805a79f2af261b3b07f7"
@@ -3126,7 +3116,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": 0.0505,
           "volume": 9.0,
-          "liquidity": 2825.3486,
+          "liquidity": 3170.555,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xf534ecbb573c59f2f0d5e5bdab5b09db45379e106d2decc665a2cdb6842cc021"
@@ -3134,10 +3124,10 @@ const DATA = {
         {
           "label": "78\u00b0F or higher",
           "our_p": 0.0139,
-          "mkt_p": 0.0025,
-          "gap": 0.0114,
+          "mkt_p": 0.0015,
+          "gap": 0.0124,
           "volume": 204.9654,
-          "liquidity": 2599.77246,
+          "liquidity": 2591.46422,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8a8875be6e306745b43015758a5a7ae528b38c3598bec843d5d2e09eef18a2bb"
@@ -3148,7 +3138,7 @@ const DATA = {
           "mkt_p": 0.0025,
           "gap": -0.0022,
           "volume": 43.021,
-          "liquidity": 3522.99752,
+          "liquidity": 3529.79594,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x41e69cc8a229b256395ead283957b2f308aef3a1ef64d67534bf7484178693e3"
@@ -3186,7 +3176,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": -0.0345,
           "volume": 0.0,
-          "liquidity": 949.0681,
+          "liquidity": 949.1742,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xeabc17707e729895c2c0050f57bc48c7215922d1e2a9d20ae9f63a8d73fc1740"
@@ -3197,7 +3187,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": -0.033,
           "volume": 0.0,
-          "liquidity": 908.0681,
+          "liquidity": 908.7734,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xe567ad84f07f86a028b20aa95fc2a970b7a90b4574c0a50c4d86ba6149bae63d"
@@ -3208,7 +3198,7 @@ const DATA = {
           "mkt_p": 0.08,
           "gap": -0.0718,
           "volume": 0.0,
-          "liquidity": 1417.5381,
+          "liquidity": 1444.9442,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x133a4ab67c1bca1c71a0d630c18ba7af9633b8b90470a005c5b96739d8df14c1"
@@ -3219,7 +3209,7 @@ const DATA = {
           "mkt_p": 0.085,
           "gap": -0.0409,
           "volume": 0.0,
-          "liquidity": 960.6475,
+          "liquidity": 971.5536,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xc63d2b88d0c46e8866793c20bb23c0a49f9ae51f8918b45e15140921575fa81b"
@@ -3230,7 +3220,7 @@ const DATA = {
           "mkt_p": 0.2,
           "gap": -0.0271,
           "volume": 74.291665,
-          "liquidity": 1191.5511,
+          "liquidity": 1205.4224,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xb94f007bebb2e41ae20a06036012bfff9e65ee29053c43d9326c8cbaccbc93af"
@@ -3241,7 +3231,7 @@ const DATA = {
           "mkt_p": 0.29,
           "gap": 0.0452,
           "volume": 7.804877,
-          "liquidity": 1550.2617,
+          "liquidity": 1519.0038,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xdb293f224bd37c510f4eed638fc3d946c730ec22baf5f1cd622eb0612fbcc81b"
@@ -3252,7 +3242,7 @@ const DATA = {
           "mkt_p": 0.245,
           "gap": 0.0501,
           "volume": 9.55,
-          "liquidity": 1980.038,
+          "liquidity": 1627.4764,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x8b369c5a3e8182f40e1bbbfb92567b9ba5bdef4f32329c8ad56d189027bf9e5f"
@@ -3263,7 +3253,7 @@ const DATA = {
           "mkt_p": 0.035,
           "gap": 0.082,
           "volume": 0.0,
-          "liquidity": 1055.9639,
+          "liquidity": 1389.28,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x824c56d1931681d16c3e1c1375d9b5c2c60ec96e7e588c3a2f3a0c1687b2e18d"
@@ -3274,7 +3264,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": 0.0189,
           "volume": 0.0,
-          "liquidity": 1259.86479,
+          "liquidity": 1231.8524,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x595f18f6286d86d11ba4d0d5c1b488151054c22601b3d47bc3d28a690fa3aff1"
@@ -3285,7 +3275,7 @@ const DATA = {
           "mkt_p": 0.003,
           "gap": -0.0001,
           "volume": 0.0,
-          "liquidity": 313.85111,
+          "liquidity": 300.01111,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0xfdc2108493212fafeed9fd3cb60abdb83d601aa77746cddc75b21c48d07c4f89"
@@ -3296,7 +3286,7 @@ const DATA = {
           "mkt_p": 0.0055,
           "gap": -0.0054,
           "volume": 0.0,
-          "liquidity": 1061.68498,
+          "liquidity": 1104.19834,
           "signal": null,
           "fee_frac": null,
           "condition_id": "0x0cf6d58c5d03552cd3b13e5c6719c6429d74d16b04d6792e62300453cc83a87f"
@@ -3470,34 +3460,26 @@ tickClock();
 setInterval(tickClock, 1000);
 
 render();
+
+(function initThemeToggle() {
+  const toggle = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  if (!toggle || !icon) return;
+  const root = document.documentElement;
+  const systemPrefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const applyTheme = (theme) => {
+    if (theme) root.dataset.theme = theme; else delete root.dataset.theme;
+    icon.textContent = (theme || (systemPrefersDark() ? 'dark' : 'light')) === 'dark' ? '☀️' : '🌙';
+  };
+  const saved = localStorage.getItem('earlycast-theme');
+  applyTheme(saved || null);
+  toggle.addEventListener('click', () => {
+    const current = root.dataset.theme || (systemPrefersDark() ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('earlycast-theme', next);
+    applyTheme(next);
+  });
+})();
 </script>
-
-<script>
-  const themeToggle = document.getElementById('theme-toggle');
-  if (themeToggle) {
-    const root = document.documentElement;
-    const updateIcon = (theme) => {
-      document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
-    };
-    
-    // Init from local storage
-    const saved = localStorage.getItem('earlycast-theme');
-    if (saved) {
-      root.dataset.theme = saved;
-      updateIcon(saved);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      updateIcon('dark');
-    }
-
-    themeToggle.addEventListener('click', () => {
-      const current = root.dataset.theme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      const next = current === 'dark' ? 'light' : 'dark';
-      root.dataset.theme = next;
-      localStorage.setItem('earlycast-theme', next);
-      updateIcon(next);
-    });
-  }
-</script>
-
 </body>
 </html>
