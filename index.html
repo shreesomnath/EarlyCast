@@ -141,6 +141,10 @@
   .share-btn:hover { background: var(--model); color: #fff; border-color: var(--model); }
   .share-btn.copied { background: var(--good); color: #fff; border-color: var(--good); }
   .status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--good); margin-right: 0.4rem; animation: pulse 2.2s ease-in-out infinite; }
+  .health-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.4rem; }
+  .health-dot.healthy { background: var(--good); }
+  .health-dot.warning { background: var(--accent); }
+  .health-dot.stale { background: var(--bad); }
   @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
   @media (prefers-reduced-motion: reduce) { .status-dot { animation: none; } }
   .subhead { font-size: 1.05rem; color: var(--muted); margin: 0.3rem 0 1.5rem; max-width: 62ch; line-height: 1.5; }
@@ -169,7 +173,39 @@
   .lt-title { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 1.4rem; margin: 0; }
   .lt-since { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--muted); }
   .live-track .track-record { margin-bottom: 1rem; }
+
+  /* ---------- Biggest gaps quick-view ---------- */
+  .gaps-quickview { margin-bottom: 1.75rem; }
+  .sort-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .sort-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-right: 0.2rem; }
+  .sort-btn {
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 0.82rem; font-weight: 500; padding: 0.35rem 0.8rem;
+    border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.12s;
+  }
+  .sort-btn:hover { border-color: var(--model); color: var(--ink); }
+  .sort-btn.active { background: var(--model); border-color: var(--model); color: #fff; font-weight: 600; }
+  .gq-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.6rem; }
+  .gq-row { display: flex; gap: 0.7rem; overflow-x: auto; padding-bottom: 0.3rem; }
+  .gq-card {
+    flex: 0 0 auto; display: flex; flex-direction: column; gap: 0.3rem; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 0.7rem 0.9rem; box-shadow: var(--shadow); cursor: pointer; min-width: 150px; transition: transform 0.12s;
+  }
+  .gq-card:hover { transform: translateY(-2px); }
+  .gq-city { font-family: 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 1rem; }
+  .gq-bucket { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--muted); }
+  .gq-gap { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; font-weight: 700; }
+  .gq-gap.yes { color: var(--good); }
+  .gq-gap.no { color: var(--bad); }
+  @media (max-width: 640px) { .gq-card { min-width: 130px; } }
   .lt-empty { font-size: 0.9rem; color: var(--muted); line-height: 1.6; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.4rem; }
+  .lt-brier {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; background: var(--model-soft); border: 1px solid var(--line);
+    border-radius: 10px; padding: 0.8rem 1.2rem; margin-bottom: 1rem; font-size: 0.88rem;
+  }
+  .lt-brier-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .lt-brier-stat { font-family: 'IBM Plex Mono', monospace; color: var(--ink); }
+  .lt-brier-stat b { font-size: 1rem; }
+  .lt-brier-note { flex-basis: 100%; font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
   .lt-list { display: flex; flex-direction: column; gap: 0.5rem; }
   .lt-row { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 0.55rem 0.9rem; font-size: 0.85rem; }
   .lt-row-left { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
@@ -293,6 +329,8 @@
         <span class="status-item">Your time <b id="live-clock"></b></span>
         <span class="status-sep">·</span>
         <button type="button" id="raw-data-btn" class="status-link">Raw data ↗</button>
+        <span class="status-sep">·</span>
+        <span class="status-item" id="pipeline-health" title=""></span>
       </div>
       <div class="share-row" id="share-row">
         <span class="share-label">Share</span>
@@ -317,6 +355,15 @@
     <div class="tr-note">Meaningfully skillful against a naive baseline, but the market's own price stays better calibrated overall. A directional signal from blend/market disagreement was profitable and statistically significant before costs — a realistic bid-ask spread erased it. Real backtest, 9 cities, 11 months, published in the underlying research.</div>
   </div>
 
+  <div class="gaps-quickview" id="gaps-quickview"></div>
+
+  <div class="sort-row">
+    <span class="sort-label">Sort</span>
+    <button type="button" class="sort-btn active" data-sort="default">Default</button>
+    <button type="button" class="sort-btn" data-sort="gap">Biggest gap</button>
+    <button type="button" class="sort-btn" data-sort="soonest">Soonest resolving</button>
+  </div>
+
   <div class="grid" id="cards"></div>
 
   <section class="live-track" id="live-track"></section>
@@ -336,7 +383,7 @@
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 const DATA = {
-  "generated_at": "2026-08-29T17:25:09.425379",
+  "generated_at": "2026-08-29T17:27:49.833873",
   "wn2_init": "2026-08-29T06:00:00",
   "gefs_init": "2026-08-29T06:00:00",
   "blend_weights": {
@@ -3562,6 +3609,7 @@ const DATA = {
         "win_rate": null
       }
     },
+    "brier": null,
     "recent": []
   },
   "correction_status": {
@@ -3569,10 +3617,26 @@ const DATA = {
     "live_samples_corrected": 0,
     "live_samples_total": 0,
     "last_recomputed": "2026-08-29T17:17:01.602928"
-  }
+  },
+  "last_successful_push": null
 };
 
 let activeCity = null;
+let sortMode = 'default';
+
+function maxGap(m) {
+  return Math.max(0, ...m.buckets.map(b => Math.abs(b.gap)));
+}
+
+function sortMarkets(markets) {
+  const arr = markets.slice();
+  if (sortMode === 'gap') {
+    arr.sort((a, b) => maxGap(b) - maxGap(a));
+  } else if (sortMode === 'soonest') {
+    arr.sort((a, b) => new Date(a.resolves_at_est) - new Date(b.resolves_at_est));
+  }
+  return arr;
+}
 
 document.getElementById('raw-data-btn').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify(DATA, null, 2)], { type: 'application/json' });
@@ -3607,6 +3671,14 @@ document.getElementById('raw-data-btn').addEventListener('click', () => {
     }
   });
 })();
+
+document.querySelectorAll('.sort-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    sortMode = btn.dataset.sort;
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.toggle('active', b === btn));
+    render();
+  });
+});
 
 function goHome() { activeCity = null; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 document.getElementById('brand-home').addEventListener('click', goHome);
@@ -3720,17 +3792,24 @@ function renderLiveTrack() {
     <div class="tr-note">${tr.pending} signal${tr.pending===1?'':'s'} still pending resolution. This is this deployment's own forward-looking record, separate from the historical 255-market research backtest above — it starts from zero and builds up day by day as markets settle.</div>
   </div>`;
 
+  const brierHtml = tr.brier ? `<div class="lt-brier">
+    <span class="lt-brier-label">Live calibration (n=${tr.brier.n})</span>
+    <span class="lt-brier-stat">Our model: <b>${tr.brier.our_brier.toFixed(4)}</b></span>
+    <span class="lt-brier-stat">Market: <b>${tr.brier.mkt_brier.toFixed(4)}</b></span>
+    <span class="lt-brier-note">Brier score (lower = better calibrated) — computed fresh from this deployment's own resolved predictions, directly comparable to the paper's 255-market historical backtest (0.0639 vs 0.0591).</span>
+  </div>` : '';
+
   const list = tr.recent.length ? `<div class="lt-list">${tr.recent.map(r => `
     <div class="lt-row">
       <div class="lt-row-left">
-        <span class="city">${titleCase(r.city)}</span>
-        <span class="bucket">${r.bucket_label} · ${r.signal === 'buy_yes' ? 'buy yes' : 'buy no'}</span>
-        <span style="color:var(--muted);font-size:0.78rem;">${r.target_date}</span>
+        <span class="city">${escapeHtml(titleCase(r.city))}</span>
+        <span class="bucket">${escapeHtml(r.bucket_label)} · ${r.signal === 'buy_yes' ? 'buy yes' : 'buy no'}</span>
+        <span style="color:var(--muted);font-size:0.78rem;">${escapeHtml(r.target_date)}</span>
       </div>
-      <span class="lt-outcome ${r.outcome}">${r.outcome}</span>
+      <span class="lt-outcome ${r.outcome}">${escapeHtml(r.outcome)}</span>
     </div>`).join('')}</div>` : '';
 
-  el.innerHTML = head + stats + list;
+  el.innerHTML = head + stats + brierHtml + list;
 }
 
 function renderCorrectionStatus() {
@@ -3744,14 +3823,40 @@ function renderCorrectionStatus() {
   }
 }
 
+function renderGapsQuickview() {
+  const el = document.getElementById('gaps-quickview');
+  if (activeCity) { el.innerHTML = ''; return; }
+  const all = [];
+  DATA.markets.forEach(m => m.buckets.forEach(b => all.push({ city: m.city, label: b.label, gap: b.gap, mkt_p: b.mkt_p, our_p: b.our_p })));
+  const top = all.filter(b => Math.abs(b.gap) > 0.03).sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap)).slice(0, 8);
+  if (!top.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="gq-label">Biggest model-vs-market gaps right now</div>
+    <div class="gq-row">${top.map(b => {
+      const dir = b.gap > 0 ? 'yes' : 'no';
+      return `<div class="gq-card" data-city="${escapeHtml(b.city)}">
+        <span class="gq-city">${escapeHtml(titleCase(b.city))}</span>
+        <span class="gq-bucket">${escapeHtml(b.label)}</span>
+        <span class="gq-gap ${dir}">${dir === 'yes' ? '+' : ''}${(b.gap*100).toFixed(0)}pt</span>
+      </div>`;
+    }).join('')}</div>`;
+  el.querySelectorAll('.gq-card').forEach(card => {
+    card.addEventListener('click', () => {
+      activeCity = card.dataset.city;
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
 function render() {
   document.getElementById('refresh-time').textContent = fmtTime(DATA.generated_at);
   document.getElementById('page-title').textContent = activeCity ? titleCase(activeCity) : 'All Cities';
   renderNav();
   renderLiveTrack();
   renderCorrectionStatus();
+  renderGapsQuickview();
 
-  const markets = activeCity ? DATA.markets.filter(m => m.city === activeCity) : DATA.markets;
+  const markets = sortMarkets(activeCity ? DATA.markets.filter(m => m.city === activeCity) : DATA.markets);
   const grid = document.getElementById('cards');
   grid.className = 'grid' + (activeCity ? ' single' : '');
 
@@ -3867,12 +3972,27 @@ function wireTooltips() {
   });
 }
 
+function tickPipelineHealth() {
+  const el = document.getElementById('pipeline-health');
+  if (!el) return;
+  const ts = DATA.last_successful_push;
+  if (!ts) { el.innerHTML = ''; return; }
+  const mins = Math.floor((Date.now() - new Date(ts).getTime()) / 60000);
+  const state = mins < 15 ? 'healthy' : mins < 45 ? 'warning' : 'stale';
+  const label = mins < 1 ? 'just now' : mins < 60 ? `${mins}m ago` : `${Math.floor(mins/60)}h ${mins%60}m ago`;
+  el.innerHTML = `<span class="health-dot ${state}"></span>Pipeline confirmed live ${label}`;
+  el.title = state === 'stale'
+    ? 'No confirmed successful update in a while -- the automated pipeline may be stuck. Data shown could be outdated.'
+    : 'Time since the automated pipeline last confirmed a successful update to this site.';
+}
+
 function tickClock() {
   const el = document.getElementById('live-clock');
   if (el) el.textContent = new Date().toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit' });
   document.querySelectorAll('.countdown[data-resolves]').forEach(c => {
     c.textContent = resolveCountdown(c.dataset.resolves);
   });
+  tickPipelineHealth();
 }
 tickClock();
 setInterval(tickClock, 1000);
