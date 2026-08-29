@@ -1,0 +1,15 @@
+{
+  "name": "EarlyCast — Weather Models vs. Prediction Markets",
+  "short_name": "EarlyCast",
+  "description": "Live comparison of an AI weather-model blend against Polymarket's real-time temperature-market prices, city by city.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EEF1F5",
+  "theme_color": "#182233",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
