@@ -412,7 +412,7 @@
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 const DATA = {
-  "generated_at": "2026-08-30T17:50:07.318896",
+  "generated_at": "2026-08-30T17:52:07.092266",
   "wn2_init": "2026-08-30T06:00:00",
   "gefs_init": "2026-08-30T06:00:00",
   "blend_weights": {
@@ -3845,7 +3845,7 @@ const DATA = {
     "live_samples_total": 4,
     "last_recomputed": "2026-08-30T17:17:01.356130"
   },
-  "last_successful_push": "2026-08-30T17:45:07Z",
+  "last_successful_push": "2026-08-30T17:50:09Z",
   "paper_trading": {
     "starting_capital": 1000.0,
     "stake_per_trade": 10.0,
@@ -3854,6 +3854,7 @@ const DATA = {
     "active_count": 129,
     "active_capital_committed": 1290.0,
     "completed_count": 10,
+    "largest_win": 52.5,
     "active": [
       {
         "city": "new_york",
@@ -5320,7 +5321,11 @@ function renderPaperTrading() {
     <div class="pt-stat"><span class="pt-num ${pnlClass}">$${pt.current_balance.toFixed(2)}</span><span class="pt-label">Current Balance</span></div>
     <div class="pt-stat"><span class="pt-num ${pnlClass}">${fmtUsd(pt.realized_pnl)}</span><span class="pt-label">Realized P&amp;L (${pt.completed_count} trades)</span></div>
     <div class="pt-stat"><span class="pt-num">${pt.active_count}</span><span class="pt-label">Active Trades ($${pt.active_capital_committed.toFixed(0)} committed)</span></div>
-    <div class="pt-note">Fixed $${pt.stake_per_trade.toFixed(0)} stake per signal, no compounding, no fees modeled. Same real trades as the Live Track Record above, shown here in dollar terms.</div>
+    <div class="pt-note">Fixed $${pt.stake_per_trade.toFixed(0)} stake per signal, no compounding, no fees or spread modeled. Same real trades as the Live Track Record above, in dollar terms.${
+      (pt.largest_win > 0 && pt.realized_pnl > 0 && pt.largest_win >= pt.realized_pnl * 0.5)
+        ? ` <b>Note:</b> a single trade (${fmtUsd(pt.largest_win)}) accounts for most of this total — normal for this strategy's longshot payoff shape, but it means the result rests on very few outcomes, not consistent performance.`
+        : ''
+    }</div>
   </div>`;
 
   const activeHtml = pt.active.length ? `
@@ -5380,7 +5385,7 @@ function renderLiveTrack() {
     <span class="lt-brier-label">Live calibration (n=${tr.brier.n})</span>
     <span class="lt-brier-stat">Our model: <b>${tr.brier.our_brier.toFixed(4)}</b></span>
     <span class="lt-brier-stat">Market: <b>${tr.brier.mkt_brier.toFixed(4)}</b></span>
-    <span class="lt-brier-note">Brier score (lower = better calibrated) — computed fresh from this deployment's own resolved predictions, directly comparable to the paper's 255-market historical backtest (0.0639 vs 0.0591).</span>
+    <span class="lt-brier-note">Brier score (lower = better calibrated), from this deployment's own resolved predictions. <b>Not comparable to the paper's 255-market backtest (0.0639 vs 0.0591)</b> — that covered every bucket, while this covers only buckets where a signal fired, which are selected for maximum disagreement and are therefore a harder, biased subsample. Treat small-n results here as noise, not evidence.</span>
   </div>` : '';
 
   const list = tr.recent.length ? `<div class="lt-list">${tr.recent.map(r => `
