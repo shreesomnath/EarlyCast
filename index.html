@@ -412,7 +412,7 @@
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
 const DATA = {
-  "generated_at": "2026-09-15T05:15:09.075498",
+  "generated_at": "2026-09-15T05:20:04.663455",
   "wn2_init": "2026-09-14T18:00:00",
   "gefs_init": "2026-09-14T18:00:00",
   "blend_weights": {
@@ -3396,28 +3396,156 @@ const DATA = {
   ],
   "track_record": {
     "total_logged": 1003,
-    "graded": 808,
-    "pending": 195,
-    "wins": 393,
-    "win_rate": 0.486,
+    "graded": 816,
+    "pending": 187,
+    "wins": 396,
+    "win_rate": 0.485,
     "by_direction": {
       "buy_yes": {
-        "graded": 361,
+        "graded": 365,
         "wins": 44,
-        "win_rate": 0.122
+        "win_rate": 0.121
       },
       "buy_no": {
-        "graded": 447,
-        "wins": 349,
-        "win_rate": 0.781
+        "graded": 451,
+        "wins": 352,
+        "win_rate": 0.78
       }
     },
     "brier": {
-      "n": 808,
-      "our_brier": 0.1354,
-      "mkt_brier": 0.1334
+      "n": 816,
+      "our_brier": 0.1351,
+      "mkt_brier": 0.1325
     },
     "recent": [
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "74-75\u00b0F",
+        "signal": "buy_yes",
+        "lead_days_at_signal": 1,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.1845,
+        "mkt_p_at_signal": 0.0005,
+        "gap_at_signal": 0.184,
+        "first_seen_ts": "2026-09-14T05:00:01.781724",
+        "resolved": true,
+        "outcome": "loss",
+        "graded_ts": "2026-09-15T05:17:04.461874",
+        "actual_bucket": "76-77\u00b0F"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_yes",
+        "lead_days_at_signal": 2,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.0997,
+        "mkt_p_at_signal": 0.01,
+        "gap_at_signal": 0.0897,
+        "first_seen_ts": "2026-09-12T19:20:02.215046",
+        "resolved": true,
+        "outcome": "loss",
+        "graded_ts": "2026-09-15T05:17:04.186534",
+        "actual_bucket": "76-77\u00b0F"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "80-81\u00b0F",
+        "signal": "buy_yes",
+        "lead_days_at_signal": 3,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.2351,
+        "mkt_p_at_signal": 0.13,
+        "gap_at_signal": 0.1051,
+        "first_seen_ts": "2026-09-12T12:20:02.798002",
+        "resolved": true,
+        "outcome": "loss",
+        "graded_ts": "2026-09-15T05:17:03.449886",
+        "actual_bucket": "76-77\u00b0F"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "74-75\u00b0F",
+        "signal": "buy_no",
+        "lead_days_at_signal": 3,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.0884,
+        "mkt_p_at_signal": 0.205,
+        "gap_at_signal": -0.1166,
+        "first_seen_ts": "2026-09-12T10:40:02.286215",
+        "resolved": true,
+        "outcome": "win",
+        "graded_ts": "2026-09-15T05:17:02.568057",
+        "actual_bucket": "76-77\u00b0F"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "78-79\u00b0F",
+        "signal": "buy_yes",
+        "lead_days_at_signal": 3,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.2739,
+        "mkt_p_at_signal": 0.09,
+        "gap_at_signal": 0.1839,
+        "first_seen_ts": "2026-09-12T09:30:03.192838",
+        "resolved": true,
+        "outcome": "loss",
+        "graded_ts": "2026-09-15T05:17:02.568053",
+        "actual_bucket": "76-77\u00b0F"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "76-77\u00b0F",
+        "signal": "buy_no",
+        "lead_days_at_signal": 3,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.1963,
+        "mkt_p_at_signal": 0.5,
+        "gap_at_signal": -0.3037,
+        "first_seen_ts": "2026-09-12T09:30:03.192836",
+        "resolved": true,
+        "outcome": "loss",
+        "graded_ts": "2026-09-15T05:17:02.568050",
+        "actual_bucket": "76-77\u00b0F"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "72-73\u00b0F",
+        "signal": "buy_no",
+        "lead_days_at_signal": 3,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.0266,
+        "mkt_p_at_signal": 0.17,
+        "gap_at_signal": -0.1434,
+        "first_seen_ts": "2026-09-12T09:30:03.192834",
+        "resolved": true,
+        "outcome": "win",
+        "graded_ts": "2026-09-15T05:17:02.568045",
+        "actual_bucket": "76-77\u00b0F"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "70-71\u00b0F",
+        "signal": "buy_no",
+        "lead_days_at_signal": 3,
+        "event_title": "Highest temperature in NYC on September 14?",
+        "our_p_at_signal": 0.0062,
+        "mkt_p_at_signal": 0.175,
+        "gap_at_signal": -0.1688,
+        "first_seen_ts": "2026-09-12T09:30:03.192831",
+        "resolved": true,
+        "outcome": "win",
+        "graded_ts": "2026-09-15T05:17:02.568030",
+        "actual_bucket": "76-77\u00b0F"
+      },
       {
         "city": "seattle",
         "target_date": "2026-09-13",
@@ -3449,134 +3577,6 @@ const DATA = {
         "outcome": "win",
         "graded_ts": "2026-09-14T09:17:04.088853",
         "actual_bucket": "78-79\u00b0F"
-      },
-      {
-        "city": "denver",
-        "target_date": "2026-09-13",
-        "bucket_label": "96-97\u00b0F",
-        "signal": "buy_yes",
-        "lead_days_at_signal": 1,
-        "event_title": "Highest temperature in Denver on September 13?",
-        "our_p_at_signal": 0.1587,
-        "mkt_p_at_signal": 0.045,
-        "gap_at_signal": 0.1137,
-        "first_seen_ts": "2026-09-13T07:20:05.832738",
-        "resolved": true,
-        "outcome": "loss",
-        "graded_ts": "2026-09-14T09:17:04.088849",
-        "actual_bucket": "94-95\u00b0F"
-      },
-      {
-        "city": "dallas",
-        "target_date": "2026-09-13",
-        "bucket_label": "102-103\u00b0F",
-        "signal": "buy_yes",
-        "lead_days_at_signal": 1,
-        "event_title": "Highest temperature in Dallas on September 13?",
-        "our_p_at_signal": 0.2089,
-        "mkt_p_at_signal": 0.035,
-        "gap_at_signal": 0.1739,
-        "first_seen_ts": "2026-09-13T07:20:04.802959",
-        "resolved": true,
-        "outcome": "loss",
-        "graded_ts": "2026-09-14T09:17:04.088846",
-        "actual_bucket": "98-99\u00b0F"
-      },
-      {
-        "city": "seattle",
-        "target_date": "2026-09-13",
-        "bucket_label": "62-63\u00b0F",
-        "signal": "buy_yes",
-        "lead_days_at_signal": 1,
-        "event_title": "Highest temperature in Seattle on September 13?",
-        "our_p_at_signal": 0.373,
-        "mkt_p_at_signal": 0.27,
-        "gap_at_signal": 0.103,
-        "first_seen_ts": "2026-09-13T04:50:08.382924",
-        "resolved": true,
-        "outcome": "loss",
-        "graded_ts": "2026-09-14T09:17:04.088843",
-        "actual_bucket": "60-61\u00b0F"
-      },
-      {
-        "city": "seattle",
-        "target_date": "2026-09-13",
-        "bucket_label": "58-59\u00b0F",
-        "signal": "buy_no",
-        "lead_days_at_signal": 1,
-        "event_title": "Highest temperature in Seattle on September 13?",
-        "our_p_at_signal": 0.0402,
-        "mkt_p_at_signal": 0.145,
-        "gap_at_signal": -0.1048,
-        "first_seen_ts": "2026-09-13T04:50:08.382919",
-        "resolved": true,
-        "outcome": "win",
-        "graded_ts": "2026-09-14T09:17:04.088840",
-        "actual_bucket": "60-61\u00b0F"
-      },
-      {
-        "city": "seattle",
-        "target_date": "2026-09-13",
-        "bucket_label": "64-65\u00b0F",
-        "signal": "buy_yes",
-        "lead_days_at_signal": 1,
-        "event_title": "Highest temperature in Seattle on September 13?",
-        "our_p_at_signal": 0.2936,
-        "mkt_p_at_signal": 0.175,
-        "gap_at_signal": 0.1186,
-        "first_seen_ts": "2026-09-12T19:20:09.234013",
-        "resolved": true,
-        "outcome": "loss",
-        "graded_ts": "2026-09-14T09:17:04.088835",
-        "actual_bucket": "60-61\u00b0F"
-      },
-      {
-        "city": "los_angeles",
-        "target_date": "2026-09-13",
-        "bucket_label": "74-75\u00b0F",
-        "signal": "buy_yes",
-        "lead_days_at_signal": 1,
-        "event_title": "Highest temperature in Los Angeles on September 13?",
-        "our_p_at_signal": 0.1206,
-        "mkt_p_at_signal": 0.02,
-        "gap_at_signal": 0.1006,
-        "first_seen_ts": "2026-09-12T19:20:03.048088",
-        "resolved": true,
-        "outcome": "loss",
-        "graded_ts": "2026-09-14T09:17:04.088832",
-        "actual_bucket": "78-79\u00b0F"
-      },
-      {
-        "city": "denver",
-        "target_date": "2026-09-13",
-        "bucket_label": "88-89\u00b0F",
-        "signal": "buy_yes",
-        "lead_days_at_signal": 2,
-        "event_title": "Highest temperature in Denver on September 13?",
-        "our_p_at_signal": 0.0854,
-        "mkt_p_at_signal": 0.005,
-        "gap_at_signal": 0.0804,
-        "first_seen_ts": "2026-09-12T12:40:08.044801",
-        "resolved": true,
-        "outcome": "loss",
-        "graded_ts": "2026-09-14T09:17:04.088825",
-        "actual_bucket": "94-95\u00b0F"
-      },
-      {
-        "city": "los_angeles",
-        "target_date": "2026-09-13",
-        "bucket_label": "76-77\u00b0F",
-        "signal": "buy_yes",
-        "lead_days_at_signal": 2,
-        "event_title": "Highest temperature in Los Angeles on September 13?",
-        "our_p_at_signal": 0.1657,
-        "mkt_p_at_signal": 0.09,
-        "gap_at_signal": 0.0757,
-        "first_seen_ts": "2026-09-12T11:45:03.480917",
-        "resolved": true,
-        "outcome": "loss",
-        "graded_ts": "2026-09-14T09:17:04.088820",
-        "actual_bucket": "78-79\u00b0F"
       }
     ]
   },
@@ -3586,15 +3586,15 @@ const DATA = {
     "live_samples_total": 482,
     "last_recomputed": "2026-09-14T19:17:01.844816"
   },
-  "last_successful_push": "2026-09-15T05:10:06Z",
+  "last_successful_push": "2026-09-15T05:15:10Z",
   "paper_trading": {
     "starting_capital": 1000.0,
     "stake_per_trade": 10.0,
-    "realized_pnl": 3355.43,
-    "current_balance": 4355.43,
-    "active_count": 195,
-    "active_capital_committed": 1950.0,
-    "completed_count": 808,
+    "realized_pnl": 3312.18,
+    "current_balance": 4312.18,
+    "active_count": 187,
+    "active_capital_committed": 1870.0,
+    "completed_count": 816,
     "largest_win": 990.0,
     "active": [
       {
@@ -3715,42 +3715,6 @@ const DATA = {
         "first_seen_ts": "2026-09-12T08:45:05.931450"
       },
       {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "70-71\u00b0F",
-        "signal": "buy_no",
-        "entry_price": 0.825,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-12T09:30:03.192831"
-      },
-      {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "72-73\u00b0F",
-        "signal": "buy_no",
-        "entry_price": 0.83,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-12T09:30:03.192834"
-      },
-      {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "76-77\u00b0F",
-        "signal": "buy_no",
-        "entry_price": 0.5,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-12T09:30:03.192836"
-      },
-      {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "78-79\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.09,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-12T09:30:03.192838"
-      },
-      {
         "city": "dallas",
         "target_date": "2026-09-14",
         "bucket_label": "100-101\u00b0F",
@@ -3758,15 +3722,6 @@ const DATA = {
         "entry_price": 0.72,
         "stake": 10.0,
         "first_seen_ts": "2026-09-12T10:00:10.217897"
-      },
-      {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "74-75\u00b0F",
-        "signal": "buy_no",
-        "entry_price": 0.795,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-12T10:40:02.286215"
       },
       {
         "city": "dallas",
@@ -3821,15 +3776,6 @@ const DATA = {
         "entry_price": 0.015,
         "stake": 10.0,
         "first_seen_ts": "2026-09-12T11:55:06.376256"
-      },
-      {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "80-81\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.13,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-12T12:20:02.798002"
       },
       {
         "city": "houston",
@@ -3965,15 +3911,6 @@ const DATA = {
         "entry_price": 0.115,
         "stake": 10.0,
         "first_seen_ts": "2026-09-12T18:25:06.265151"
-      },
-      {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "82-83\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.01,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-12T19:20:02.215046"
       },
       {
         "city": "los_angeles",
@@ -4678,15 +4615,6 @@ const DATA = {
         "first_seen_ts": "2026-09-14T04:35:08.582012"
       },
       {
-        "city": "new_york",
-        "target_date": "2026-09-14",
-        "bucket_label": "74-75\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.001,
-        "stake": 10.0,
-        "first_seen_ts": "2026-09-14T05:00:01.781724"
-      },
-      {
         "city": "austin",
         "target_date": "2026-09-15",
         "bucket_label": "98-99\u00b0F",
@@ -5355,6 +5283,102 @@ const DATA = {
     ],
     "recent_completed": [
       {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "74-75\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.001,
+        "stake": 10.0,
+        "pnl": -10.0,
+        "won": false,
+        "first_seen_ts": "2026-09-14T05:00:01.781724",
+        "graded_ts": "2026-09-15T05:17:04.461874"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "82-83\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.01,
+        "stake": 10.0,
+        "pnl": -10.0,
+        "won": false,
+        "first_seen_ts": "2026-09-12T19:20:02.215046",
+        "graded_ts": "2026-09-15T05:17:04.186534"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "80-81\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.13,
+        "stake": 10.0,
+        "pnl": -10.0,
+        "won": false,
+        "first_seen_ts": "2026-09-12T12:20:02.798002",
+        "graded_ts": "2026-09-15T05:17:03.449886"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "74-75\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.795,
+        "stake": 10.0,
+        "pnl": 2.58,
+        "won": true,
+        "first_seen_ts": "2026-09-12T10:40:02.286215",
+        "graded_ts": "2026-09-15T05:17:02.568057"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "78-79\u00b0F",
+        "signal": "buy_yes",
+        "entry_price": 0.09,
+        "stake": 10.0,
+        "pnl": -10.0,
+        "won": false,
+        "first_seen_ts": "2026-09-12T09:30:03.192838",
+        "graded_ts": "2026-09-15T05:17:02.568053"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "76-77\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.5,
+        "stake": 10.0,
+        "pnl": -10.0,
+        "won": false,
+        "first_seen_ts": "2026-09-12T09:30:03.192836",
+        "graded_ts": "2026-09-15T05:17:02.568050"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "72-73\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.83,
+        "stake": 10.0,
+        "pnl": 2.05,
+        "won": true,
+        "first_seen_ts": "2026-09-12T09:30:03.192834",
+        "graded_ts": "2026-09-15T05:17:02.568045"
+      },
+      {
+        "city": "new_york",
+        "target_date": "2026-09-14",
+        "bucket_label": "70-71\u00b0F",
+        "signal": "buy_no",
+        "entry_price": 0.825,
+        "stake": 10.0,
+        "pnl": 2.12,
+        "won": true,
+        "first_seen_ts": "2026-09-12T09:30:03.192831",
+        "graded_ts": "2026-09-15T05:17:02.568030"
+      },
+      {
         "city": "seattle",
         "target_date": "2026-09-13",
         "bucket_label": "57\u00b0F or below",
@@ -5377,102 +5401,6 @@ const DATA = {
         "won": true,
         "first_seen_ts": "2026-09-13T16:20:03.100838",
         "graded_ts": "2026-09-14T09:17:04.088853"
-      },
-      {
-        "city": "denver",
-        "target_date": "2026-09-13",
-        "bucket_label": "96-97\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.045,
-        "stake": 10.0,
-        "pnl": -10.0,
-        "won": false,
-        "first_seen_ts": "2026-09-13T07:20:05.832738",
-        "graded_ts": "2026-09-14T09:17:04.088849"
-      },
-      {
-        "city": "dallas",
-        "target_date": "2026-09-13",
-        "bucket_label": "102-103\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.035,
-        "stake": 10.0,
-        "pnl": -10.0,
-        "won": false,
-        "first_seen_ts": "2026-09-13T07:20:04.802959",
-        "graded_ts": "2026-09-14T09:17:04.088846"
-      },
-      {
-        "city": "seattle",
-        "target_date": "2026-09-13",
-        "bucket_label": "62-63\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.27,
-        "stake": 10.0,
-        "pnl": -10.0,
-        "won": false,
-        "first_seen_ts": "2026-09-13T04:50:08.382924",
-        "graded_ts": "2026-09-14T09:17:04.088843"
-      },
-      {
-        "city": "seattle",
-        "target_date": "2026-09-13",
-        "bucket_label": "58-59\u00b0F",
-        "signal": "buy_no",
-        "entry_price": 0.855,
-        "stake": 10.0,
-        "pnl": 1.7,
-        "won": true,
-        "first_seen_ts": "2026-09-13T04:50:08.382919",
-        "graded_ts": "2026-09-14T09:17:04.088840"
-      },
-      {
-        "city": "seattle",
-        "target_date": "2026-09-13",
-        "bucket_label": "64-65\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.175,
-        "stake": 10.0,
-        "pnl": -10.0,
-        "won": false,
-        "first_seen_ts": "2026-09-12T19:20:09.234013",
-        "graded_ts": "2026-09-14T09:17:04.088835"
-      },
-      {
-        "city": "los_angeles",
-        "target_date": "2026-09-13",
-        "bucket_label": "74-75\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.02,
-        "stake": 10.0,
-        "pnl": -10.0,
-        "won": false,
-        "first_seen_ts": "2026-09-12T19:20:03.048088",
-        "graded_ts": "2026-09-14T09:17:04.088832"
-      },
-      {
-        "city": "denver",
-        "target_date": "2026-09-13",
-        "bucket_label": "88-89\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.005,
-        "stake": 10.0,
-        "pnl": -10.0,
-        "won": false,
-        "first_seen_ts": "2026-09-12T12:40:08.044801",
-        "graded_ts": "2026-09-14T09:17:04.088825"
-      },
-      {
-        "city": "los_angeles",
-        "target_date": "2026-09-13",
-        "bucket_label": "76-77\u00b0F",
-        "signal": "buy_yes",
-        "entry_price": 0.09,
-        "stake": 10.0,
-        "pnl": -10.0,
-        "won": false,
-        "first_seen_ts": "2026-09-12T11:45:03.480917",
-        "graded_ts": "2026-09-14T09:17:04.088820"
       }
     ]
   }
